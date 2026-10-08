@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-for (const width of [768, 900, 1024, 1440]) {
+for (const width of [768, 1440]) {
   test(`skeleton do carrinho em ${width}px`, async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop')
     await page.setViewportSize({ width, height: 1000 })

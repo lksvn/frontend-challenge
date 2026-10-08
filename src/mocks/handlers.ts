@@ -1,12 +1,11 @@
 import { delay, http, HttpResponse, ws } from 'msw'
-import { toSocketIo } from '@mswjs/socket.io-binding'
 import { catalogSelections } from './fixtures'
 import { save, store, user } from './store'
 import { nftListeners, orderListeners } from './events'
 import type { NftUpdated } from '../contracts'
 import { fromWei, toWei } from '../lib/money'
 
-const realtime = ws.link(
+export const realtime = ws.link(
   `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/`,
 )
 
@@ -105,7 +104,17 @@ export const handlers = [
       ? HttpResponse.json(nft)
       : HttpResponse.json({ code: 'NOT_FOUND', message: 'NFT não encontrado.' }, { status: 404 })
   }),
-  realtime.addEventListener('connection', (connection) => {
+  realtime.addEventListener('connection', async (connection) => {
+    let closed = false
+    connection.client.addEventListener(
+      'close',
+      () => {
+        closed = true
+      },
+      { once: true },
+    )
+    const { toSocketIo } = await import('@mswjs/socket.io-binding')
+    if (closed) return
     const socket = toSocketIo(connection)
     const sessionId = user()?.id
     const listener: Parameters<typeof orderListeners.add>[0] = (event) => {

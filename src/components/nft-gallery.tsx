@@ -18,7 +18,7 @@ export function NftGallery({ nft }: { nft: Nft }) {
             aria-pressed={imageIndex === index}
             onClick={() => setImageIndex(index)}
           >
-            <img src={image} alt="" width="100" height="100" />
+            <img src={image} alt="" width="100" height="100" loading="lazy" />
           </button>
         ))}
       </div>
@@ -30,9 +30,17 @@ export function NftGallery({ nft }: { nft: Nft }) {
             alt={nft.name}
             width="600"
             height="600"
+            fetchPriority="high"
           />
           <Dialog.Trigger className="gallery-art-image" aria-label="Ampliar imagem do NFT">
-            <img id="obra" src={selectedImage} alt={nft.name} width="600" height="600" />
+            <img
+              id="obra"
+              src={selectedImage}
+              alt={nft.name}
+              width="600"
+              height="600"
+              fetchPriority="high"
+            />
           </Dialog.Trigger>
           <TooltipProvider delayDuration={300}>
             <Tooltip>

@@ -57,7 +57,6 @@ test('detalhe mobile adiciona sem navegar e abre o carrinho separadamente', asyn
   await expect(page).toHaveURL(/nfts\/1$/)
   await expect(page.locator('.mobile-cart-action .cart-count')).toHaveText('2')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-  await page.screenshot({ path: 'reports/mobile-detail.png', fullPage: true })
   await page.getByRole('link', { name: 'Abrir carrinho' }).click()
   await expect(page).toHaveURL(/\/cart$/)
   await expect(page.locator('.cart-row').first().locator('output')).toHaveText('2')

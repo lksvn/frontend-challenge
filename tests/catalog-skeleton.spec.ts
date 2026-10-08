@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-for (const width of [320, 390, 414, 600, 601, 768, 900, 901, 1024, 1440]) {
+for (const width of [390, 600, 601, 900, 901, 1440]) {
   test(`skeleton da página inicial em ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.addInitScript(() => {

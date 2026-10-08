@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { useMarketplaceEvents } from '../hooks/use-marketplace-events'
 import { AuthNavigation, SessionNav } from '../account'
 import { SiteFooter } from './site-footer'
+import { SuccessMessage } from './success-message'
 
 function HeaderSearch() {
   const search = useSearch({ strict: false })
@@ -64,7 +65,7 @@ function HeaderSearch() {
 }
 
 export function SiteLayout() {
-  useMarketplaceEvents()
+  const { message } = useMarketplaceEvents()
   const location = useRouterState({ select: (state) => state.location })
   const pathname = location.pathname
   const hash = location.hash.replace(/^#/, '')
@@ -172,6 +173,13 @@ export function SiteLayout() {
       >
         <Outlet />
       </main>
+      {message && (
+        <SuccessMessage
+          key={message}
+          message={message}
+          className="fixed inset-x-4 top-4 z-40 mx-auto max-w-lg rounded-lg border border-field-border bg-card p-4 text-copy shadow-lg"
+        />
+      )}
       <SiteFooter />
       <AuthNavigation />
     </>

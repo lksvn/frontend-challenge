@@ -7,7 +7,7 @@
 }
 
 .payment-layout .collector-fields {
-  @apply gap-6;
+  @apply gap-6 items-end;
   & h2 {
     @apply m-0;
   }

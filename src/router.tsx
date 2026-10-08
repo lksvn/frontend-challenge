@@ -3,6 +3,7 @@ import {
   createRoute,
   createRouter,
   Link,
+  lazyRouteComponent,
   redirect,
   stripSearchParams,
 } from '@tanstack/react-router'
@@ -13,12 +14,7 @@ import { SiteLayout } from './components/site-layout'
 import { LoginModal } from './components/login-modal'
 import { CatalogPage } from './pages/catalog-page'
 import { NftDetailPage } from './pages/nft-detail-page'
-import { CartPage } from './pages/cart-page'
-import { CheckoutPage } from './pages/checkout-page'
 import { OrderPage } from './pages/order-page'
-import { ProfilePage } from './pages/profile-page'
-import { FavoritesPage } from './pages/favorites-page'
-import { WalletsPage } from './pages/wallets-page'
 
 const root = createRootRoute({
   component: SiteLayout,
@@ -112,16 +108,20 @@ const register = createRoute({
   path: '/register',
   component: () => <AuthRoute register />,
 })
-const cart = createRoute({ getParentRoute: () => root, path: '/cart', component: CartPage })
+const cart = createRoute({
+  getParentRoute: () => root,
+  path: '/cart',
+  component: lazyRouteComponent(() => import('./pages/cart-page'), 'CartPage'),
+})
 const checkout = createRoute({
   getParentRoute: () => root,
   path: '/checkout',
-  component: CheckoutPage,
+  component: lazyRouteComponent(() => import('./pages/checkout-page'), 'CheckoutPage'),
 })
 const profile = createRoute({
   getParentRoute: () => root,
   path: '/profile',
-  component: ProfilePage,
+  component: lazyRouteComponent(() => import('./pages/profile-page'), 'ProfilePage'),
 })
 const wallets = createRoute({
   getParentRoute: () => root,
@@ -129,12 +129,12 @@ const wallets = createRoute({
   validateSearch: (search: Record<string, unknown>): { from?: 'checkout' } => ({
     from: search.from === 'checkout' ? 'checkout' : undefined,
   }),
-  component: WalletsPage,
+  component: lazyRouteComponent(() => import('./pages/wallets-page'), 'WalletsPage'),
 })
 const favorites = createRoute({
   getParentRoute: () => root,
   path: '/favorites',
-  component: FavoritesPage,
+  component: lazyRouteComponent(() => import('./pages/favorites-page'), 'FavoritesPage'),
 })
 const order = createRoute({
   getParentRoute: () => root,

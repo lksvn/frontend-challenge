@@ -15,6 +15,10 @@
   @apply grid gap-6.5 grow-0 shrink-0 basis-full min-w-0 snap-start;
   & h3 {
     @apply text-[14px] font-normal wrap-anywhere;
+    min-height: 2lh;
+  }
+  & .nft-card-skeleton h3 {
+    @apply aspect-auto text-transparent rounded;
   }
   & p {
     @apply mt-1;

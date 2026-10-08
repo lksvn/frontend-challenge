@@ -20,7 +20,6 @@ test('carrinho altera quantidade, recalcula total e remove item', async ({ page 
     await page.evaluate(() => window.scrollTo(0, 150))
     expect((await summary.boundingBox())!.y).toBe(initial!.y)
     await page.evaluate(() => window.scrollTo(0, 0))
-    await page.screenshot({ path: 'reports/mobile-cart.png' })
   }
   const row = page.locator('.cart-row').first()
   await expect(row.locator('.cart-line-total')).toContainText('0.952 ETH')

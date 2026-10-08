@@ -1,15 +1,22 @@
-import { test, expect } from '@playwright/test'
-import { clickDemo, selectScenario } from './demo-controls'
+import { test, expect, type Page } from '@playwright/test'
+import type { Nft } from '../src/contracts'
+import { emitNftEvent, selectScenario } from './mock-controls'
 
-test('navegação destaca a página ou seção atual', async ({ page }) => {
+async function fixtureNfts(page: Page): Promise<Nft[]> {
+  await expect(page.locator('#catalogo .nft-grid .nft-card').first()).toBeVisible()
+  return page.evaluate(() => JSON.parse(localStorage.getItem('kurio.mock.v1')!).nfts)
+}
+
+test('navegação destaca a página ou seção atual', async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'mobile',
+    'Controles do desktop; fluxo mobile tem teste próprio.',
+  )
   await page.goto('/')
   const nav = page.getByRole('navigation', { name: 'Principal', exact: true })
   await expect(nav.getByRole('link', { name: 'Início' })).toHaveAttribute('aria-current', 'page')
   await nav.getByRole('link', { name: 'Mercado' }).click()
-  await expect(nav.getByRole('link', { name: 'Mercado' })).toHaveAttribute(
-    'aria-current',
-    'location',
-  )
+  await expect(nav.getByRole('link', { name: 'Mercado' })).toHaveAttribute('aria-current', 'page')
   await expect(nav.getByRole('link', { name: 'Início' })).not.toHaveAttribute('aria-current')
   await page.goto('/nfts/1')
   await expect(nav.getByRole('link', { name: 'Mercado' })).toHaveAttribute(
@@ -18,52 +25,76 @@ test('navegação destaca a página ou seção atual', async ({ page }) => {
   )
 })
 
-test('ações do card e tag de raridade', async ({ page }) => {
+test('ações do card e tag de raridade', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'As ações por hover são exclusivas do desktop.')
+  await page.addInitScript(() => {
+    Math.random = () => 0.25
+  })
   await page.goto('/')
   const card = page.locator('#catalogo .nft-card').first()
   await expect(card.locator('.nft-rarity')).toHaveText('RARO')
   await card.getByRole('link', { name: 'Ver Emerald Ape #042', exact: true }).focus()
   await card.getByRole('button', { name: 'Adicionar Emerald Ape #042 ao carrinho' }).click()
   await expect(page.getByRole('banner').locator('.cart-count')).toHaveText('1')
-  await expect(card.getByRole('button', { name: 'Favoritar', exact: true })).toBeDisabled()
+  await card.getByRole('button', { name: 'Favoritar', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: 'Entrar na Kurio' })).toBeVisible()
+  await page.keyboard.press('Escape')
   await card.getByRole('link', { name: 'Visualizar Emerald Ape #042' }).click()
   await expect(page).toHaveURL(/\/nfts\/1$/)
 })
 
-test('destaque, avaliações, edições e quantidade no detalhe', async ({ page }) => {
-  await page.goto('/')
-  const featured = page.getByRole('region', { name: 'NFT em destaque' })
-  await expect(featured.getByText('OFERTA LIMITADA')).toBeVisible()
-  await featured.getByRole('link', { name: 'Ver Sage Nomad #009' }).click()
-  await expect(page).toHaveURL(/\/nfts\/2$/)
+test('destaque, avaliações, edições e quantidade no detalhe', async ({ page }, testInfo) => {
+  await page.addInitScript(() => {
+    Math.random = () => 0.5
+  })
+  if (testInfo.project.name === 'desktop') {
+    await page.goto('/')
+    const featured = page.getByRole('region', { name: 'NFT em destaque' })
+    await expect(featured.getByText('OFERTA LIMITADA')).toBeVisible()
+    await featured.getByRole('link', { name: 'Ver Sage Nomad #009' }).click()
+    await expect(page).toHaveURL(/\/nfts\/2$/)
+  }
   await page.goto('/nfts/1')
-  await expect(page.getByRole('img', { name: 'Avaliação: 4.8 de 5 estrelas' })).toBeVisible()
+  await expect(page.getByRole('img', { name: /^Avaliação: [\d.]+ de 5 estrelas$/ })).toBeVisible()
   await expect(page.getByRole('tab', { name: 'Detalhes do NFT', exact: true })).toHaveAttribute(
     'aria-selected',
     'true',
   )
   await expect(page.getByRole('tab', { name: 'Avaliações de colecionadores (19)' })).toBeDisabled()
-  await expect(page.getByRole('radio', { name: '1/50', exact: true })).toBeChecked()
-  await expect(page.getByRole('radio', { name: 'ABERTA', exact: true })).toBeDisabled()
+  const nft: Nft = await page.evaluate(
+    () => JSON.parse(localStorage.getItem('kurio.mock.v1')!).nfts[0],
+  )
+  const edition = nft.editions.find((item) => item.enabled)!
+  await expect(page.getByRole('radio', { name: edition.name, exact: true })).toBeChecked()
   const increase = page.getByRole('button', { name: 'Aumentar quantidade' })
   await expect(page.getByRole('button', { name: 'Diminuir quantidade' })).toBeDisabled()
-  for (let quantity = 1; quantity < 10; quantity++) {
+  for (let quantity = 1; quantity < nft.available; quantity++) {
     await increase.click()
   }
-  await expect(page.getByLabel('Quantidade', { exact: true })).toHaveText('10')
+  await expect(page.getByLabel('Quantidade', { exact: true })).toHaveText(String(nft.available))
   await expect(increase).toBeDisabled()
   await page.getByRole('button', { name: 'Diminuir quantidade' }).click()
-  await expect(page.getByLabel('Quantidade', { exact: true })).toHaveText('9')
+  await expect(page.getByLabel('Quantidade', { exact: true })).toHaveText(String(nft.available - 1))
 })
 
 test('filtros combinados, ordenação e resposta obsoleta não regressam catálogo', async ({
   page,
-}) => {
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'mobile',
+    'Controles do desktop; fluxo mobile tem teste próprio.',
+  )
   await page.goto('/')
-  await expect(page.getByRole('status').filter({ hasText: '36 resultados' })).toBeVisible()
-  await page.getByRole('button', { name: 'Arte digital (9)', exact: true }).click()
-  await page.getByRole('button', { name: 'Ethereum (12)', exact: true }).click()
-  await expect(page.getByRole('status').filter({ hasText: '3 resultados' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: '62 resultados' })).toBeVisible()
+  const nfts = await fixtureNfts(page)
+  const { category, network } = nfts[0]
+  await page.getByRole('button', { name: new RegExp(`^${category} \\(\\d+\\)$`) }).click()
+  await page.getByRole('button', { name: new RegExp(`^${network} \\(\\d+\\)$`) }).click()
+  const filtered = nfts.filter((nft) => nft.category === category && nft.network === network)
+  const ascending = [...filtered].sort((a, b) => Number(a.price) - Number(b.price))
+  await expect(
+    page.getByRole('status').filter({ hasText: `${filtered.length} resultados` }),
+  ).toBeVisible()
   await selectScenario(page, 'variable')
   const slowRequest = page.waitForRequest(
     (request) => request.url().includes('/api/nfts?') && request.url().includes('sort=price-asc'),
@@ -76,46 +107,64 @@ test('filtros combinados, ordenação e resposta obsoleta não regressam catálo
   await page.getByLabel('Ordenar por').selectOption('price-desc')
   await cancellation
   await expect(page).toHaveURL(/sort=price-desc/)
-  await expect(page.locator('#catalogo .nft-card').first()).toContainText('1.43 ETH')
+  await expect(page.locator('#catalogo .nft-card').first()).toContainText(
+    `${ascending.at(-1)!.price} ETH`,
+  )
   await page.reload()
   await expect(page.getByLabel('Ordenar por')).toHaveValue('price-desc')
-  await expect(page.getByRole('status').filter({ hasText: '3 resultados' })).toBeVisible()
+  await expect(
+    page.getByRole('status').filter({ hasText: `${filtered.length} resultados` }),
+  ).toBeVisible()
   await page.goBack()
   await expect(page.getByLabel('Ordenar por')).toHaveValue('price-asc')
-  await expect(page.locator('#catalogo .nft-card').first()).toContainText('1.19 ETH')
+  await expect(page.locator('#catalogo .nft-card').first()).toContainText(
+    `${ascending[0].price} ETH`,
+  )
 })
 
 test('falha de conexão REST oferece recuperação sem perder filtros', async ({ page }) => {
   await page.goto('/?network=Ethereum')
-  await expect(page.getByRole('status').filter({ hasText: '12 resultados' })).toBeVisible()
+  await expect(page.locator('#catalogo .nft-grid .nft-card').first()).toBeVisible()
+  const count = (
+    await page.evaluate(() => JSON.parse(localStorage.getItem('kurio.mock.v1')!).nfts as Nft[])
+  ).filter((nft) => nft.network === 'Ethereum').length
+  await expect(page.getByRole('status').filter({ hasText: `${count} resultados` })).toBeVisible()
   await selectScenario(page, 'offline')
   await expect(
-    page
-      .getByRole('alert')
-      .filter({ hasText: 'Não foi possível carregar a atualização do catálogo' }),
+    page.getByRole('alert').filter({ hasText: 'Não foi possível carregar o catálogo' }),
   ).toBeVisible()
   await selectScenario(page, 'success')
-  await expect(page.getByRole('status').filter({ hasText: '12 resultados' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: `${count} resultados` })).toBeVisible()
   await expect(page).toHaveURL(/network=Ethereum/)
 })
 
-test('primeiro evento antigo é descartado contra a versão REST', async ({ page }) => {
+test('eventos antigos e duplicados preservam preço e estoque', async ({ page }) => {
   await page.goto('/nfts/1')
-  await expect(page.locator('.detail-layout .price')).toContainText('0.952 ETH')
-  await expect(page.getByText('Socket.IO: conectado')).toBeVisible()
-  await clickDemo(page, 'Evento antigo')
-  await expect(page.locator('.demo-panel [role="status"]')).toContainText('Evento antigo')
-  await expect(page.locator('.demo-panel [role="status"]')).toContainText('descartado')
-  await expect(page.locator('.detail-layout .price')).toContainText('0.952 ETH')
-  await expect(page.getByRole('radio', { name: '1/50', exact: true })).toBeChecked()
-  await expect(page.getByRole('radio', { name: '1/1', exact: true })).toBeDisabled()
-  await page.goto('/nfts/36')
-  await expect(page.getByRole('button', { name: 'Edição esgotada' })).toBeDisabled()
+  const price = page.locator('.detail-layout .price').first()
+  await expect(price).toContainText('0.952 ETH')
+  await emitNftEvent(page, 'old')
+  await emitNftEvent(page, 'duplicate')
+  await emitNftEvent(page, 'update')
+  await expect(price).toContainText('1.052 ETH')
+  const selection = await page.locator('.nft-purchase input[type=radio]:checked').inputValue()
+  await emitNftEvent(page, 'old')
+  await emitNftEvent(page, 'duplicate')
+  // Dá tempo para o evento atravessar o WebSocket antes de verificar a ausência de mudança.
+  await page.waitForTimeout(250)
+  await expect(price).toContainText('1.052 ETH')
+  await expect(page.locator('.nft-purchase input[type=radio]:checked')).toHaveValue(selection)
+  await page.reload()
+  await expect(price).toContainText('1.052 ETH')
 })
 
-test('REST: filtros, paginação, refresh e histórico', async ({ page }) => {
+test('REST: filtros, paginação, refresh e histórico', async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'mobile',
+    'Controles do desktop; fluxo mobile tem teste próprio.',
+  )
   await page.goto('/')
-  await expect(page.getByRole('status').filter({ hasText: '36 resultados' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: '62 resultados' })).toBeVisible()
+  const musicCount = (await fixtureNfts(page)).filter((nft) => nft.category === 'Música').length
   await page.getByRole('button', { name: '2', exact: true }).click()
   await expect(page).toHaveURL(/page=2/)
   await expect
@@ -125,11 +174,13 @@ test('REST: filtros, paginação, refresh e histórico', async ({ page }) => {
     })
     .toBeLessThan(80)
   expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
-  await page.getByRole('button', { name: 'Música (9)', exact: true }).click()
+  await page.getByRole('button', { name: /^Música \(\d+\)$/ }).click()
   await expect(page).not.toHaveURL(/page=/)
-  await expect(page.getByRole('status').filter({ hasText: '9 resultados' })).toBeVisible()
+  await expect(
+    page.getByRole('status').filter({ hasText: `${musicCount} resultados` }),
+  ).toBeVisible()
   await page.reload()
-  await expect(page.getByRole('button', { name: 'Música (9)', exact: true })).toHaveAttribute(
+  await expect(page.getByRole('button', { name: /^Música \(\d+\)$/ })).toHaveAttribute(
     'aria-pressed',
     'true',
   )
@@ -137,15 +188,14 @@ test('REST: filtros, paginação, refresh e histórico', async ({ page }) => {
   await expect(page).toHaveURL(/page=2/)
 })
 
-test('Socket.IO: evento atualiza REST e preço na interface', async ({ page }) => {
+test('Socket.IO: evento atualiza preço e esgotamento na interface', async ({ page }) => {
   await page.goto('/nfts/1')
-  await expect(page.getByText('Socket.IO: conectado')).toBeVisible()
-  await expect(page.locator('.detail-layout .price')).toContainText('0.952 ETH')
-  await clickDemo(page, 'Simular mudança de preço')
-  await expect(page.locator('.detail-layout .price')).toHaveText('1.29 ETH')
-  await expect(page.getByRole('status').filter({ hasText: 'Preço atualizado' })).toContainText(
-    '1.29 ETH',
-  )
+  const price = page.locator('.detail-layout .price').first()
+  await expect(price).toContainText('0.952 ETH')
+  await emitNftEvent(page, 'update')
+  await expect(price).toContainText('1.052 ETH')
+  await emitNftEvent(page, 'stock')
+  await expect(page.getByRole('button', { name: 'Edição esgotada', exact: true })).toBeDisabled()
 })
 
 test('detalhe direto e NFT inexistente', async ({ page }) => {
@@ -157,33 +207,37 @@ test('detalhe direto e NFT inexistente', async ({ page }) => {
 
 test('skeleton lento, HTTP 503 e recuperação', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByText('Socket.IO: conectado')).toBeVisible()
+  await expect(page.locator('#catalogo .nft-grid .nft-card').first()).toBeVisible()
   await Promise.all([
     page.waitForResponse((response) => response.url().endsWith('/api/demo/scenario')),
     selectScenario(page, 'slow'),
   ])
   await page.reload()
   await expect(page.getByLabel('Carregando NFTs')).toBeVisible()
-  await expect(page.getByRole('status').filter({ hasText: '36 resultados' })).toBeVisible({
+  await expect(page.getByRole('status').filter({ hasText: '62 resultados' })).toBeVisible({
     timeout: 10_000,
   })
   await selectScenario(page, 'server-error')
   await expect(
-    page
-      .getByRole('alert')
-      .filter({ hasText: 'Não foi possível carregar a atualização do catálogo' }),
+    page.getByRole('alert').filter({ hasText: 'Não foi possível carregar o catálogo' }),
   ).toBeVisible()
   await selectScenario(page, 'success')
-  await expect(page.getByRole('status').filter({ hasText: '36 resultados' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: '62 resultados' })).toBeVisible()
 })
 
-test('filtros preservam rolagem e URL contém somente valores selecionados', async ({ page }) => {
+test('filtros preservam rolagem e URL contém somente valores selecionados', async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'mobile',
+    'Controles do desktop; fluxo mobile tem teste próprio.',
+  )
   await page.goto('/?q=&category=&network=&sort=recent&page=1')
-  await expect(page.getByRole('button', { name: 'Música (9)', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: /^Música \(\d+\)$/ })).toBeVisible()
   await expect(page).toHaveURL(/\/$/)
   await page.locator('#catalogo').scrollIntoViewIfNeeded()
   const scrollBefore = await page.evaluate(() => window.scrollY)
-  await page.getByRole('button', { name: 'Música (9)', exact: true }).click()
+  await page.getByRole('button', { name: /^Música \(\d+\)$/ }).click()
   await expect(page).toHaveURL(/category=/)
   await expect(page).not.toHaveURL(/q=|network=|sort=|page=/)
   expect(await page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(scrollBefore - 5)
@@ -192,6 +246,7 @@ test('filtros preservam rolagem e URL contém somente valores selecionados', asy
   await expect(page).not.toHaveURL(/min=/)
   await page.getByRole('button', { name: 'Aplicar', exact: true }).click()
   await expect(page).toHaveURL(/min=0.03/)
+  await page.goto('/?q=sem-resultados-xyz')
   await page.getByRole('button', { name: 'Limpar filtros' }).click()
   await expect(page).toHaveURL(/\/$/)
   await page.locator('.nft-card').first().click()
@@ -215,10 +270,12 @@ test('login abre sobre a página atual, fecha por Escape e preserva filtros', as
   await expect(page).toHaveURL(/category=/)
 })
 
-test('títulos alternam login e cadastro no mesmo modal sem mudar a URL', async ({ page }, testInfo) => {
+test('títulos alternam login e cadastro no mesmo modal sem mudar a URL', async ({
+  page,
+}, testInfo) => {
   const mobile = testInfo.project.name === 'mobile'
   await page.goto('/nfts/1')
-  await page.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await page.getByRole('button', { name: mobile ? 'Favoritar' : 'Entrar', exact: true }).click()
   const dialog = page.getByRole('dialog')
   await dialog.getByLabel('E-mail', { exact: true }).fill('errado@kurio.test')
   await dialog.getByLabel('Senha', { exact: true }).fill('senhaerrada')
@@ -239,7 +296,11 @@ test('títulos alternam login e cadastro no mesmo modal sem mudar a URL', async 
   await dialog.getByLabel('Confirmar senha', { exact: true }).fill('Kurio123!')
   await dialog.getByRole('button', { name: /^Criar (conta|perfil)$/ }).click()
   if (mobile) await expect(dialog.locator('.auth-mobile-title')).toHaveText('Entrar')
-  else await expect(dialog.getByRole('tab', { name: 'Entrar', exact: true })).toHaveAttribute('aria-selected', 'true')
+  else
+    await expect(dialog.getByRole('tab', { name: 'Entrar', exact: true })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
   await expect(dialog.getByRole('status')).toContainText('Conta criada')
   await expect(page).toHaveURL(/\/nfts\/1$/)
   if (!mobile) {
@@ -247,15 +308,23 @@ test('títulos alternam login e cadastro no mesmo modal sem mudar a URL', async 
     await page.keyboard.press('ArrowLeft')
     await expect(dialog.getByRole('tab', { name: 'Entrar', exact: true })).toBeFocused()
   } else {
-    expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true)
+    expect(await dialog.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
+      true,
+    )
   }
   await page.keyboard.press('Escape')
   await expect(dialog).toHaveCount(0)
 })
 
-test('lupa abre busca sem deslocar cabeçalho e mantém filtros na URL', async ({ page }) => {
+test('lupa abre busca sem deslocar cabeçalho e mantém filtros na URL', async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'mobile',
+    'Controles do desktop; fluxo mobile tem teste próprio.',
+  )
   await page.goto('/?category=Arte+digital&page=2')
-  await expect(page.getByRole('button', { name: 'Arte digital (9)', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: /^Arte digital \(\d+\)$/ })).toBeVisible()
   const headerBefore = await page.locator('.site-header').boundingBox()
   const trigger = page.getByRole('button', { name: 'Abrir busca', exact: true })
   await expect(page.getByLabel('Buscar NFTs', { exact: true })).toHaveCount(0)
@@ -286,7 +355,11 @@ test('lupa abre busca sem deslocar cabeçalho e mantém filtros na URL', async (
   await expect(page).toHaveURL(/category=/)
 })
 
-test('busca no detalhe leva ao catálogo', async ({ page }) => {
+test('busca no detalhe leva ao catálogo', async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name === 'mobile',
+    'Controles do desktop; fluxo mobile tem teste próprio.',
+  )
   await page.goto('/nfts/1')
   await page.getByRole('button', { name: 'Abrir busca' }).click()
   const input = page.getByRole('searchbox', { name: 'Buscar NFTs' })
@@ -326,7 +399,7 @@ test('seleções do catálogo filtram pela API e persistem na URL', async ({ pag
   await expect(page.getByRole('status').filter({ hasText: '6 resultados' })).toBeVisible()
   await views.getByRole('button', { name: 'Todos os NFTs' }).click()
   await expect(page).not.toHaveURL(/view=/)
-  await expect(page.getByRole('status').filter({ hasText: '36 resultados' })).toBeVisible()
+  await expect(page.getByRole('status').filter({ hasText: '62 resultados' })).toBeVisible()
 })
 
 test('paginação anterior e próxima respeita os limites', async ({ page }) => {
@@ -343,7 +416,7 @@ test('paginação anterior e próxima respeita os limites', async ({ page }) => 
   )
   await previous.click()
   await expect(page).not.toHaveURL(/page=/)
-  await pagination.getByRole('button', { name: '4', exact: true }).click()
+  await pagination.getByRole('button', { name: '7', exact: true }).click()
   await expect(next).toHaveCount(0)
   await page.goto('/?view=trending')
   await expect(pagination.getByRole('button', { name: '1', exact: true })).toBeVisible()
@@ -355,6 +428,9 @@ test('paginação anterior e próxima respeita os limites', async ({ page }) => 
 })
 
 test('mais desta coleção troca página por teclado e abre outro NFT', async ({ page }) => {
+  await page.addInitScript(() => {
+    Math.random = () => 0.5
+  })
   await page.goto('/nfts/1')
   const carousel = page.getByRole('region', { name: 'Mais desta coleção' })
   const secondPage = carousel.getByRole('button', { name: 'Ver coleção 2' })

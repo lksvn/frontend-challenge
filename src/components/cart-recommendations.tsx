@@ -14,15 +14,7 @@ export function CartRecommendations() {
     <section className="cart-recommendations" aria-labelledby="recommendations-title">
       <h2 id="recommendations-title">Colecionadores também viram</h2>
       {query.isPending ? (
-        <div
-          className="recommendations-page"
-          aria-label="Carregando recomendações"
-          aria-busy="true"
-        >
-          {Array.from({ length: 5 }, (_, index) => (
-            <div className="skeleton" key={index} />
-          ))}
-        </div>
+        <NftCarousel />
       ) : query.isError ? (
         <div>
           <p role="alert">{getErrorMessage(query.error)}</p>

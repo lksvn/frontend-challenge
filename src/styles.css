@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source('./');
 
 @import './styles/shared/base.css' layer(base);
 @import './styles/layout/footer.css' layer(components);
@@ -19,5 +19,4 @@
 @import './styles/account/auth.css' layer(components);
 @import './styles/account/account.css' layer(components);
 @import './styles/shared/form-fields.css' layer(components);
-@import './styles/demo/demo.css' layer(components);
 @import './styles/shared/buttons.css' layer(components);

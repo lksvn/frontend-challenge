@@ -356,3 +356,32 @@
     @apply absolute bottom-full left-6 right-6 mb-2 px-3 py-2 rounded-lg bg-card text-sm leading-5 shadow-[0_0_20px_#0A060473];
   }
 }
+
+.detail-skeleton {
+  & .gallery-thumbnails > .skeleton {
+    @apply size-25 rounded-lg;
+  }
+  & .gallery-main {
+    @apply cursor-default;
+  }
+  & .detail-information .skeleton {
+    @apply aspect-auto text-transparent;
+  }
+  & .detail-description {
+    @apply min-h-18;
+  }
+  & .edition-placeholder {
+    @apply h-6 w-48;
+  }
+}
+
+@media (max-width: 600px) {
+  .detail-skeleton {
+    & .gallery-thumbnails > .skeleton {
+      @apply size-10;
+    }
+    & .gallery-main > .skeleton {
+      @apply rounded-3xl;
+    }
+  }
+}

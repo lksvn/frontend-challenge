@@ -1,3 +1,4 @@
+import { NftDetailSkeleton } from '../components/nft-detail-skeleton'
 import { NftPrice } from '../components/nft-price'
 import { useEffect, useState } from 'react'
 import { Link, useRouter } from '@tanstack/react-router'
@@ -6,7 +7,6 @@ import { Tabs } from 'radix-ui'
 import { api } from '../lib/api'
 import type { Catalog, Nft } from '../contracts'
 import { Button } from '../components/ui/button'
-import { CatalogSkeleton } from '../components/catalog-skeleton'
 import { NftCarousel } from '../components/nft-carousel'
 import { AddToCart } from '../components/cart-items'
 import { NftGallery } from '../components/nft-gallery'
@@ -29,17 +29,7 @@ export function NftDetailPage({ id }: { id: string }) {
       (await api.get<Catalog>('/nfts', { params: { category: nftQuery.data?.category }, signal }))
         .data,
   })
-  if (nftQuery.isPending)
-    return (
-      <section className="detail-layout" aria-busy="true" aria-label="Carregando detalhe">
-        <div className="skeleton" />
-        <div>
-          <div className="skeleton skeleton-line" />
-          <div className="skeleton skeleton-line" />
-          <div className="skeleton" />
-        </div>
-      </section>
-    )
+  if (nftQuery.isPending) return <NftDetailSkeleton />
   if (!nftQuery.data)
     return (
       <section>
@@ -170,7 +160,7 @@ export function NftDetailPage({ id }: { id: string }) {
         <section className="related" aria-label="Mais desta coleção">
           <h2>Mais desta coleção</h2>
           {relatedQuery.isPending ? (
-            <CatalogSkeleton />
+            <NftCarousel label="coleção" />
           ) : relatedQuery.isError ? (
             <p role="alert">Não foi possível carregar a coleção.</p>
           ) : (

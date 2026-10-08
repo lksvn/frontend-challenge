@@ -43,7 +43,6 @@ test('favoritos podem ser listados e removidos sem quebrar o perfil', async ({
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
     ).toBe(true)
-    await page.screenshot({ path: `reports/favorites-${width}.png`, fullPage: true })
   }
   await row.getByRole('button', { name: 'Favoritado', exact: true }).click()
   await expect(row).toHaveCount(0)

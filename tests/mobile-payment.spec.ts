@@ -49,7 +49,6 @@ test('pagamento mobile tem cabeçalho próprio e volta ao carrinho', async ({ pa
   await page.getByRole('button', { name: 'Dados do coletor' }).click()
   await expect(page.locator('.payment-actions')).toHaveCSS('position', 'fixed')
   await expect(page.locator('.payment-actions')).toHaveCSS('border-top-left-radius', '40px')
-  await page.screenshot({ path: 'reports/mobile-payment.png' })
   await page.getByRole('button', { name: 'Trocar carteira', exact: true }).click()
   const walletTitle = page.getByRole('heading', { name: 'Carteiras', exact: true })
   await expect(walletTitle).toBeVisible()
@@ -66,4 +65,35 @@ test('pagamento mobile tem cabeçalho próprio e volta ao carrinho', async ({ pa
   await page.goto('/wallets')
   await expect(page.locator('.account-menu')).toBeVisible()
   await expect(page.locator('.header-actions')).toBeVisible()
+})
+
+test('compra mobile vai do catálogo ao recibo e preserva o resultado após refresh', async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile')
+  await page.addInitScript(() => {
+    Math.random = () => 0.5
+  })
+  await page.goto('/')
+  await expect(page.locator('#catalogo .nft-card').first()).toBeVisible()
+  await page.locator('#catalogo .nft-card').first().getByRole('link').first().click()
+  await page.getByRole('button', { name: 'Comprar NFT', exact: true }).click()
+  await expect(page.getByText('Adicionado ao carrinho.', { exact: true })).toBeVisible()
+  await page.getByRole('link', { name: 'Abrir carrinho' }).click()
+  await page.getByRole('button', { name: 'Conectar e finalizar' }).click()
+  const login = page.getByRole('dialog', { name: 'Entrar na Kurio' })
+  await login.getByLabel('E-mail', { exact: true }).fill('ana@kurio.test')
+  await login.getByLabel('Senha', { exact: true }).fill('Kurio123!')
+  await login.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page).toHaveURL(/\/checkout$/)
+  await page.getByRole('button', { name: 'Conectar', exact: true }).click()
+  await page.getByRole('button', { name: 'Confirmar compra', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Compra confirmada' })).toBeVisible()
+  await expect(page.getByRole('dialog')).toContainText('sim-')
+  await page.reload()
+  await expect(page.getByRole('heading', { name: 'Compra confirmada' })).toBeVisible()
+  await page.getByRole('button', { name: 'Fechar recibo' }).click()
+  await expect(page).toHaveURL(/#catalogo$/)
+  await page.goto('/cart')
+  await expect(page.getByText('Seu carrinho está vazio.')).toBeVisible()
 })

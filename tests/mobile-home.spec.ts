@@ -11,10 +11,9 @@ test('início mobile mantém busca, filtros e navegação acessíveis', async ({
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   )
-  await page.screenshot({ path: 'reports/mobile-home.png' })
   await page.getByRole('button', { name: 'Filtros do catálogo' }).click()
   await expect(page.getByRole('dialog', { name: 'Filtros do catálogo' })).toBeVisible()
-  await page.getByRole('button', { name: 'Colecionáveis (86)', exact: true }).click()
+  await page.getByRole('button', { name: /^Colecionáveis \(\d+\)$/ }).click()
   await expect(page).toHaveURL(/category=Colecion%C3%A1veis/)
   await page.getByRole('button', { name: 'Fechar filtros' }).click()
   await expect(page.getByRole('dialog')).toBeHidden()

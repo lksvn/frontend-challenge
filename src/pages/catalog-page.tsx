@@ -133,10 +133,10 @@ export function CatalogPage() {
               </p>
               <CatalogSkeleton />
               <div className="pagination" aria-hidden="true">
-                {/* ponytail: reserva o catálogo inicial de 10 páginas; filtros podem retornar menos. */}
-                {Array.from({ length: 11 }, (_, index) => (
+                {/* ponytail: reserva o catálogo inicial de 7 páginas; filtros podem retornar menos. */}
+                {Array.from({ length: 8 }, (_, index) => (
                   <span className="skeleton pagination-skeleton" key={index}>
-                    {index === 9 ? '00' : '0'}
+                    0
                   </span>
                 ))}
               </div>

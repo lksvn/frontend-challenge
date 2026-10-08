@@ -31,8 +31,10 @@ async function start() {
       quiet: true,
     })
   }
-  const { RouterProvider } = await import('@tanstack/react-router')
-  const { router } = await import('./router')
+  const [{ RouterProvider }, { router }] = await Promise.all([
+    import('@tanstack/react-router'),
+    import('./router'),
+  ])
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
