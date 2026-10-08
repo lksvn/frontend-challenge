@@ -34,7 +34,7 @@
 
 .account-layout {
   & :where(:not(.mobile-page-heading)) > h1 {
-    @apply text-[16px] mt-0 mb-6 leading-normal;
+    @apply text-base mt-0 mb-6 leading-normal;
   }
 }
 
@@ -144,7 +144,7 @@
   main.mobile-wallets-view,
   main.mobile-profile-view,
   main.mobile-favorites-view {
-    @apply px-7 pt-[88px] pb-7;
+    @apply px-7 pt-22 pb-7;
   }
   .wallets-page,
   .profile-page,
@@ -195,7 +195,7 @@
     @apply shrink-0;
   }
   & img {
-    @apply size-[70px] rounded-md object-cover;
+    @apply size-17.5 rounded-md object-cover;
   }
   & > div:first-of-type {
     @apply flex-1 min-w-0;

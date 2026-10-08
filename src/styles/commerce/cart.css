@@ -20,7 +20,7 @@
 }
 
 .cart-row {
-  @apply bg-card mb-3 pr-4 min-h-[70px];
+  @apply bg-card mb-3 pr-4 min-h-17.5;
   & p {
     @apply m-0;
   }
@@ -29,37 +29,37 @@
 .cart-nft {
   @apply flex items-center gap-4 min-w-0;
   & img {
-    @apply size-[70px] shrink-0 rounded-[6px] object-cover;
+    @apply size-17.5 shrink-0 rounded-md object-cover;
   }
   & h2 {
-    @apply m-0 text-[16px] leading-4 font-bold text-foreground;
+    @apply m-0 text-base leading-4 font-bold text-foreground;
   }
   & p {
-    @apply mt-2 text-[#B39463] text-[14px] leading-4 font-normal;
+    @apply mt-2 text-[#B39463] text-sm leading-4 font-normal;
   }
 }
 
 .cart-unit-price {
-  @apply text-copy text-[16px] leading-4 font-bold;
+  @apply text-copy text-base leading-4 font-bold;
 }
 
 .cart-line-total {
-  @apply text-highlight text-[16px] leading-4 font-bold;
+  @apply text-highlight text-base leading-4 font-bold;
 }
 
 .cart-quantity {
   @apply flex items-center gap-3;
   & .button {
-    @apply w-5 h-[30px] p-0 rounded-full bg-brand text-background;
+    @apply w-5 h-7.5 p-0 rounded-full bg-brand text-background;
   }
   & .asset-icon {
-    @apply w-[10px];
+    @apply w-2.5;
   }
   & .plus-icon {
-    @apply h-[10px];
+    @apply h-2.5;
   }
   & output {
-    @apply text-foreground text-[18px] leading-6 font-normal;
+    @apply text-foreground text-lg leading-6 font-normal;
   }
 }
 
@@ -73,7 +73,7 @@
 .cart-summary {
   @apply min-w-0;
   & h2 {
-    @apply mt-0 pb-3 mb-6 border-b border-brand text-[20px] leading-6;
+    @apply mt-0 pb-3 mb-6 border-b border-brand text-xl leading-6;
   }
   & > .button:not(.button-outline) {
     @apply w-full h-10 bg-brand text-background text-[16px] font-bold;
@@ -82,7 +82,7 @@
     @apply font-normal text-[15px] leading-4;
   }
   & .summary dd {
-    @apply m-0 text-right text-[18px] leading-4;
+    @apply m-0 text-right text-lg leading-4;
   }
 }
 
@@ -103,12 +103,12 @@
 }
 
 .cart-fee-estimate {
-  @apply block mt-3 text-brand text-[12px] leading-4 font-normal;
+  @apply block mt-3 text-brand text-xs leading-4 font-normal;
 }
 
 .cart-coupon {
   & label {
-    @apply font-bold text-[16px] leading-6 mb-2;
+    @apply font-bold text-base leading-6 mb-2;
   }
   & > div {
     @apply flex;
@@ -125,13 +125,13 @@
 }
 
 .cart-continue {
-  @apply block text-center text-brand font-normal text-[16px] leading-6 mt-4;
+  @apply block text-center text-brand font-normal text-base leading-6 mt-4;
 }
 
 .cart-remove-coupon {
   @apply inline-flex items-center gap-2 mt-2 p-0 bg-transparent text-brand text-[14px];
   & span {
-    @apply text-[20px] leading-none;
+    @apply text-xl leading-none;
   }
 }
 
@@ -154,7 +154,7 @@
     }
   }
   main.mobile-cart-view {
-    @apply px-7 pt-20 pb-[400px];
+    @apply px-7 pt-20 pb-100;
   }
   .cart-page {
     @apply m-0;
@@ -172,21 +172,21 @@
     @apply m-0 gap-0;
   }
   .cart-row {
-    @apply relative grid-cols-[100px_minmax(0,1fr)_auto] grid-rows-[1fr_auto] gap-x-2 gap-y-0 p-0 pr-3 mb-5 min-h-[100px] rounded-2xl;
+    @apply relative grid-cols-[100px_minmax(0,1fr)_auto] grid-rows-[1fr_auto] gap-x-2 gap-y-0 p-0 pr-3 mb-5 min-h-25 rounded-2xl;
   }
   .cart-nft {
     @apply contents;
     & img {
-      @apply row-span-2 size-[100px] rounded-2xl;
+      @apply row-span-2 size-25 rounded-2xl;
     }
     & > div {
       @apply col-start-2 row-start-1 self-end min-w-0;
     }
     & h2 {
-      @apply text-[14px] leading-5;
+      @apply text-sm leading-5;
     }
     & .cart-edition {
-      @apply not-sr-only block mt-1 text-[12px] leading-4 text-copy;
+      @apply not-sr-only block mt-1 text-xs leading-4 text-copy;
     }
   }
   .cart-line-total {
@@ -204,7 +204,7 @@
   .cart-remove {
     @apply absolute bottom-1 right-3;
     & .asset-icon {
-      @apply w-3 h-[14px];
+      @apply w-3 h-3.5;
     }
   }
   .cart-summary {
@@ -238,10 +238,10 @@
       @apply rounded-full border border-field-border;
     }
     & input {
-      @apply h-[50px] border-0 rounded-full bg-transparent text-[12px];
+      @apply h-12.5 border-0 rounded-full bg-transparent text-[12px];
     }
     & .button {
-      @apply h-[50px] rounded-full text-[14px] text-foreground;
+      @apply h-12.5 rounded-full text-[14px] text-foreground;
     }
   }
   .cart-page .cart-recommendations {

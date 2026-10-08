@@ -29,6 +29,12 @@ export function CatalogFilters({
       <div className="filters">
         <fieldset className="filter-group">
           <legend>Coleções</legend>
+          {!filters &&
+            Array.from({ length: 9 }, (_, index) => (
+              <div className="filter-option-skeleton" key={index} aria-hidden="true">
+                <span className="skeleton" />
+              </div>
+            ))}
           {filters?.categories.map(({ name, count }) => (
             <button
               type="button"
@@ -78,6 +84,12 @@ export function CatalogFilters({
         </fieldset>
         <fieldset className="filter-group">
           <legend>Rede</legend>
+          {!filters &&
+            Array.from({ length: 3 }, (_, index) => (
+              <div className="filter-option-skeleton" key={index} aria-hidden="true">
+                <span className="skeleton" />
+              </div>
+            ))}
           {filters?.networks.map(({ name, count }) => (
             <button
               type="button"

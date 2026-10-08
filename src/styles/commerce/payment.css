@@ -22,7 +22,7 @@
     @apply col-span-1;
   }
   & textarea {
-    @apply min-h-[150px] border-field-border;
+    @apply min-h-37.5 border-field-border;
   }
 }
 
@@ -52,7 +52,7 @@
 .payment-item {
   @apply flex items-center gap-2 bg-card mb-3 min-w-0;
   & img {
-    @apply size-[70px] shrink-0 object-cover rounded-[6px];
+    @apply size-17.5 shrink-0 object-cover rounded-md;
   }
   & > div {
     @apply min-w-0 flex-1;
@@ -116,7 +116,7 @@
     }
   }
   main.mobile-payment-view {
-    @apply px-7 pt-[88px] pb-7;
+    @apply px-7 pt-22 pb-7;
   }
   .payment-page {
     @apply m-0;
@@ -143,7 +143,7 @@
       @apply text-left text-[16px];
     }
     & label {
-      @apply min-h-[92px] gap-4 px-5 py-4 rounded-2xl bg-card border-0;
+      @apply min-h-23 gap-4 px-5 py-4 rounded-2xl bg-card border-0;
     }
     & input {
       @apply shrink-0;
@@ -166,7 +166,7 @@
 
 @media (max-width: 600px) {
   main.mobile-payment-view {
-    @apply pb-[120px];
+    @apply pb-30;
   }
   .payment-layout {
     @apply flex flex-col gap-6 mt-0;
@@ -180,7 +180,7 @@
     @apply hidden;
   }
   .payment-wallets {
-    @apply order-[-3];
+    @apply -order-3;
   }
   .payment-wallet-heading {
     @apply flex items-center justify-between gap-3;
@@ -189,7 +189,7 @@
     }
   }
   .payment-connection {
-    @apply order-[-2];
+    @apply -order-2;
     & h2 {
       @apply text-[16px];
     }
@@ -208,7 +208,7 @@
     }
   }
   .payment-summary > .summary {
-    @apply order-[-1] my-0;
+    @apply -order-1 my-0;
     & > div:not(:last-child) {
       @apply hidden;
     }

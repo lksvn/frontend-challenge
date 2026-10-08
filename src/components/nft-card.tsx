@@ -47,7 +47,7 @@ export function NftCard({ nft }: { nft: Nft }) {
           </TooltipProvider>
         </div>
       </NftArt>
-      <Link to="/nfts/$id" params={{ id: nft.id }} className="nft-name">
+      <Link to="/nfts/$id" params={{ id: nft.id }} className="nft-name" title={nft.name}>
         {nft.name}
       </Link>
       <NftPrice nft={nft} />

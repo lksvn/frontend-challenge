@@ -13,14 +13,14 @@
     @apply mb-0;
   }
   & input {
-    @apply max-w-[90px];
+    @apply max-w-22.5;
   }
 }
 
 .summary {
   @apply my-6 mx-0;
   & > div {
-    @apply flex justify-between gap-5 py-[10px] px-0;
+    @apply flex justify-between gap-5 py-2.5 px-0;
   }
   & > div:last-child {
     @apply border-t border-solid border-t-border;

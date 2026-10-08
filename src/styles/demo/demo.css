@@ -17,7 +17,7 @@
 }
 
 .demo-controls {
-  @apply grid gap-[10px] mt-4;
+  @apply grid gap-2.5 mt-4;
 }
 
 .demo-panel {
@@ -25,6 +25,6 @@
     @apply block mt-3 max-h-24 overflow-y-auto wrap-anywhere;
   }
   & summary:focus-visible {
-    @apply outline-2 outline-solid outline-[#ce8745] outline-offset-4;
+    @apply outline-2 outline-solid outline-primary outline-offset-4;
   }
 }

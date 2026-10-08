@@ -42,7 +42,7 @@
 
 .quantity-control {
   & button {
-    @apply w-[34px] h-[50px] p-0 rounded-full;
+    @apply w-8.5 h-12.5 p-0 rounded-full;
   }
   & output {
     @apply min-w-5 text-center;

@@ -17,7 +17,7 @@
     @apply mb-0;
   }
   & input {
-    @apply h-10 py-3 px-4 bg-panel border-field-border text-[14px] leading-4 font-normal rounded-[5px];
+    @apply h-10 py-3 px-4 bg-panel border-field-border text-sm leading-4 font-normal rounded-[5px];
   }
   & input::placeholder {
     @apply text-[#B39463] font-normal;
@@ -53,7 +53,7 @@
     @apply block text-right mb-2 text-[14px] text-primary;
   }
   & form > button {
-    @apply w-full h-[45px] mt-6 rounded-[5px] bg-brand font-bold text-[16px] leading-4 text-background;
+    @apply w-full h-11.25 mt-6 rounded-[5px] bg-brand font-bold text-base leading-4 text-background;
   }
 }
 
@@ -62,12 +62,12 @@
 }
 
 .login-modal {
-  @apply z-50 w-[min(500px,_calc(100%_-_32px))] min-h-150 p-4 pb-[65px] bg-panel border-0 border-b-[12px] border-solid border-b-brand rounded-lg;
+  @apply z-50 w-[min(500px,_calc(100%_-_32px))] min-h-150 p-4 pb-16.25 bg-panel border-0 border-b-12 border-solid border-b-brand rounded-lg;
   & button {
     @apply mr-0;
   }
   & .modal-close {
-    @apply w-[18px] h-[18px] top-4 right-4 flex items-center justify-center text-[22px] leading-none;
+    @apply w-4.5 h-4.5 top-4 right-4 flex items-center justify-center text-[22px] leading-none;
   }
 }
 
@@ -76,7 +76,7 @@
 }
 
 .auth-tabs {
-  @apply flex justify-center items-center gap-2 mt-8 mb-10 text-[20px] leading-4 font-medium text-foreground;
+  @apply flex justify-center items-center gap-2 mt-8 mb-10 text-xl leading-4 font-medium text-foreground;
   & button {
     @apply m-0 cursor-pointer;
   }
@@ -102,7 +102,7 @@
 
 @media (max-width: 600px) {
   .login-modal {
-    @apply top-0 left-0 translate-x-0 translate-y-0 w-full max-h-dvh min-h-dvh pt-[80px] px-7 pb-6 bg-background border-0;
+    @apply top-0 left-0 translate-x-0 translate-y-0 w-full max-h-dvh min-h-dvh pt-20 px-7 pb-6 bg-background border-0;
     & .auth-tabs,
     & .auth-description,
     & .auth-desktop-submit {
@@ -110,10 +110,10 @@
     }
   }
   .auth-mobile-brand {
-    @apply block text-center text-[32px] leading-10 font-bold tracking-[0.1em];
+    @apply block text-center text-[32px] leading-10 font-bold tracking-widest;
   }
   .auth-mobile-title {
-    @apply block text-center mt-20 mb-9 text-[20px] leading-6 font-bold;
+    @apply block text-center mt-20 mb-9 text-xl leading-6 font-bold;
   }
   .signup-modal .auth-mobile-title {
     @apply text-[18px];
@@ -122,15 +122,15 @@
     @apply inline;
   }
   .auth-mobile-switch {
-    @apply block w-full text-center text-copy text-[14px] leading-6 mt-9 p-0 bg-transparent;
+    @apply block w-full text-center text-copy text-sm leading-6 mt-9 p-0 bg-transparent;
   }
   .auth-form {
     @apply w-full;
     & input {
-      @apply h-[50px] rounded-[10px] bg-background;
+      @apply h-12.5 rounded-[10px] bg-background;
     }
     & form > button {
-      @apply h-[60px] mt-10 rounded-[10px];
+      @apply h-15 mt-10 rounded-[10px];
     }
     & form > a {
       @apply text-brand mb-0;

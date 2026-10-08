@@ -127,7 +127,20 @@ export function CatalogPage() {
             </div>
           )}
           {catalogQuery.isPending ? (
-            <CatalogSkeleton />
+            <>
+              <p className="text-copy text-sm" role="status">
+                Carregando resultados…
+              </p>
+              <CatalogSkeleton />
+              <div className="pagination" aria-hidden="true">
+                {/* ponytail: reserva o catálogo inicial de 10 páginas; filtros podem retornar menos. */}
+                {Array.from({ length: 11 }, (_, index) => (
+                  <span className="skeleton pagination-skeleton" key={index}>
+                    {index === 9 ? '00' : '0'}
+                  </span>
+                ))}
+              </div>
+            </>
           ) : !catalogQuery.data ? (
             <div role="alert">
               <p>Não foi possível carregar o catálogo.</p>

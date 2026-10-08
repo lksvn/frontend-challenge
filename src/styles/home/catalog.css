@@ -18,10 +18,16 @@
     @apply w-full h-auto rounded-2xl;
   }
   .nft-name {
-    @apply text-[16px] leading-4 text-foreground mt-3 mb-1 block;
+    @apply text-base leading-4 text-foreground mt-3 mb-1 line-clamp-2;
+    min-height: 2lh;
   }
   .price {
-    @apply m-0 text-[18px];
+    @apply m-0 text-[18px] flex flex-wrap gap-x-2;
+    min-height: 2lh;
+  }
+  & .price-current,
+  & .price-discount {
+    @apply whitespace-nowrap;
   }
 }
 
@@ -29,8 +35,18 @@
   @apply relative py-6 px-2 bg-card;
 }
 
+.nft-card-skeleton {
+  & .nft-name,
+  & .price {
+    @apply aspect-auto text-transparent rounded;
+  }
+  & .nft-card-art > .skeleton {
+    @apply rounded-2xl;
+  }
+}
+
 .nft-rarity {
-  @apply absolute top-3.5 left-0 px-3 py-1 bg-brand text-background text-[18px] leading-4 pointer-events-none font-medium;
+  @apply absolute top-3.5 left-0 px-3 py-1 bg-brand text-background text-lg leading-4 pointer-events-none font-medium;
 }
 
 .nft-card-actions {
@@ -69,7 +85,7 @@
 .pagination {
   @apply flex justify-end flex-wrap gap-2.5 mt-6;
   & button {
-    @apply inline-flex items-center justify-center min-w-[35px] min-h-[35px] rounded-[4px] border border-solid border-field-border bg-transparent text-foreground text-[18px] leading-[16px] font-normal py-2 px-2;
+    @apply inline-flex items-center justify-center min-w-8.75 min-h-8.75 rounded-sm border border-solid border-field-border bg-transparent text-foreground text-lg leading-4 font-normal py-2 px-2;
   }
   & button[aria-current='page'],
   & button:not(:disabled):hover {
@@ -78,6 +94,10 @@
   & button:disabled {
     @apply opacity-50;
   }
+}
+
+.pagination-skeleton {
+  @apply aspect-auto min-w-8.75 min-h-8.75 px-2 py-2 border border-transparent text-lg leading-4 text-transparent;
 }
 
 .pagination-chevron {
@@ -105,7 +125,7 @@
 
   .nft-card {
     & img {
-      @apply border-[6px];
+      @apply border-6;
     }
   }
 
@@ -117,7 +137,7 @@
 .catalog-views {
   @apply flex flex-wrap gap-6 items-start;
   & button {
-    @apply font-medium text-[14px] leading-[16px] text-foreground border-b-2 border-transparent pb-1;
+    @apply font-medium text-sm leading-4 text-foreground border-b-2 border-transparent pb-1;
   }
   & button[aria-current],
   & button:hover {
@@ -126,7 +146,7 @@
 }
 
 .catalog-sort {
-  @apply flex flex-wrap items-center gap-1 m-0 font-normal text-[14px] leading-[16px] text-foreground;
+  @apply flex flex-wrap items-center gap-1 m-0 font-normal text-sm leading-4 text-foreground;
 }
 
 .catalog-sort-control {
@@ -135,7 +155,7 @@
 
 .catalog-sort {
   & select {
-    @apply appearance-none w-auto [field-sizing:content] bg-transparent border-0 rounded-none p-0 pr-6 font-normal text-[14px] leading-[16px] text-foreground;
+    @apply appearance-none w-auto [field-sizing:content] bg-transparent border-0 rounded-none p-0 pr-6 font-normal text-sm leading-4 text-foreground;
   }
   & option {
     @apply bg-background text-foreground;
@@ -205,10 +225,12 @@
       @apply border-0;
     }
     & .nft-name {
-      @apply text-[14px] leading-5 mx-2 mb-0;
+      @apply text-sm leading-5 mx-2 mb-0;
+      min-height: 2lh;
     }
     & .price {
       @apply text-[14px] mx-2 flex flex-wrap gap-x-2;
+      min-height: 2lh;
     }
     & .price-current,
     & .price-discount {
@@ -216,7 +238,7 @@
     }
   }
   .nft-grid .nft-card-art {
-    @apply rounded-[24px] py-3 px-1;
+    @apply rounded-3xl py-3 px-1;
   }
   .nft-grid .nft-card-actions {
     @apply top-3 right-2 left-auto bottom-auto translate-x-0;

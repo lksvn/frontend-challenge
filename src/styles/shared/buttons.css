@@ -30,6 +30,6 @@
 
 @media (max-width: 600px) {
   :is(.purchase-buttons, .cart-summary, .payment-actions) > .button.mobile-primary-action {
-    @apply rounded-[40px] px-11 py-5 h-auto bg-brand text-background font-bold text-[16px] leading-5;
+    @apply rounded-[40px] px-11 py-5 h-auto bg-brand text-background font-bold text-base leading-5;
   }
 }

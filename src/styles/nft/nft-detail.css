@@ -23,7 +23,7 @@
     @apply outline outline-brand;
   }
   & img {
-    @apply size-[100px] object-cover rounded-lg;
+    @apply size-25 object-cover rounded-lg;
   }
 }
 
@@ -39,7 +39,7 @@
 }
 
 .gallery-zoom {
-  @apply absolute top-3 right-1 flex items-center justify-center size-[30px] rounded-full border border-field-border bg-[#2F1D15] text-foreground;
+  @apply absolute top-3 right-1 flex items-center justify-center size-7.5 rounded-full border border-field-border bg-[#2F1D15] text-foreground;
   & .asset-icon {
     @apply size-5;
   }
@@ -81,7 +81,7 @@
   .gallery-thumbnails {
     @apply grid-cols-[repeat(4,_1fr)] order-2;
     & img {
-      @apply w-full max-w-[100px] h-auto aspect-square;
+      @apply w-full max-w-25 h-auto aspect-square;
     }
   }
 }
@@ -121,7 +121,7 @@
 .rating-stars {
   @apply inline-flex items-center gap-1;
   & .star-icon {
-    @apply w-[13px] h-3;
+    @apply w-3.25 h-3;
   }
 }
 
@@ -154,7 +154,7 @@
 
 @media (max-width: 600px) {
   .nft-detail-layout {
-    @apply relative gap-0 mt-4 mb-8 rounded-[32px] bg-card;
+    @apply relative gap-0 mt-4 mb-8 rounded-4xl bg-card;
   }
 
   .detail-breadcrumb {
@@ -170,13 +170,13 @@
   }
 
   .nft-detail-layout .gallery-art-image > img {
-    @apply rounded-[24px];
+    @apply rounded-3xl;
   }
 
   .detail-information {
     @apply relative flex flex-col px-6 pt-8 pb-0 -mt-8 rounded-t-[40px] bg-card;
     & h1 {
-      @apply text-[20px] leading-7;
+      @apply text-xl leading-7;
     }
   }
 
@@ -235,7 +235,7 @@
   }
 
   .nft-purchase-actions .quantity-control button {
-    @apply w-5 h-[30px];
+    @apply w-5 h-7.5;
   }
 
   .purchase-buttons {
@@ -269,10 +269,10 @@
     @apply gap-3;
   }
   .nft-purchase-actions .quantity-control button {
-    @apply w-[14px] h-[22px];
+    @apply w-3.5 h-5.5;
   }
   .nft-purchase-actions .quantity-control .asset-icon {
-    @apply size-[8px];
+    @apply size-2;
   }
 }
 
@@ -285,7 +285,7 @@
     }
   }
   main.mobile-detail-view {
-    @apply pt-0 px-0 pb-[180px];
+    @apply pt-0 px-0 pb-45;
   }
   .mobile-detail-view .detail-breadcrumb {
     @apply hidden;
@@ -301,14 +301,14 @@
     }
   }
   .nft-detail-layout .nft-gallery {
-    @apply px-7 pt-[66px] pb-10;
+    @apply px-7 pt-16.5 pb-10;
   }
   .gallery-thumbnails {
     @apply gap-2;
   }
   .nft-detail-layout > .nft-description,
   .nft-detail-layout > .related {
-    @apply relative z-[1] m-0 px-6 py-8 bg-card;
+    @apply relative z-1 m-0 px-6 py-8 bg-card;
   }
 }
 @media (max-width: 600px) {
@@ -317,7 +317,7 @@
     background: linear-gradient(143.28deg, #241612 -12%, #2f1d15 106.59%);
   }
   .nft-detail-layout .gallery-thumbnails {
-    @apply absolute bottom-10 left-9 right-9 z-[1] flex gap-2;
+    @apply absolute bottom-10 left-9 right-9 z-1 flex gap-2;
     & img {
       @apply size-10;
     }
@@ -353,7 +353,7 @@
       @apply hidden;
     }
     & .gallery-mobile-image {
-      @apply block w-full h-auto rounded-[24px];
+      @apply block w-full h-auto rounded-3xl;
     }
   }
 }
@@ -364,6 +364,6 @@
 
 @media (max-width: 600px) {
   .purchase-feedback {
-    @apply absolute bottom-full left-6 right-6 mb-2 px-3 py-2 rounded-lg bg-card text-[14px] leading-5 shadow-[0_0_20px_#0A060473];
+    @apply absolute bottom-full left-6 right-6 mb-2 px-3 py-2 rounded-lg bg-card text-sm leading-5 shadow-[0_0_20px_#0A060473];
   }
 }

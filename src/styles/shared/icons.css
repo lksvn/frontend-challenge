@@ -17,11 +17,11 @@
 }
 
 .mobile-home-icon {
-  @apply mask-[url(/assets/mobile-home.svg)] w-4 h-[17px];
+  @apply mask-[url(/assets/mobile-home.svg)] w-4 h-4.25;
 }
 
 .mobile-scan-icon {
-  @apply mask-[url(/assets/mobile-scan.svg)] w-[27px] h-6;
+  @apply mask-[url(/assets/mobile-scan.svg)] w-6.75 h-6;
 }
 
 .mobile-filter-icon {
@@ -37,7 +37,7 @@
 }
 
 .minus-icon {
-  @apply w-4 h-[3px] mask-[url(/assets/minus.svg)];
+  @apply w-4 h-0.75 mask-[url(/assets/minus.svg)];
 }
 
 .plus-icon {
@@ -45,11 +45,11 @@
 }
 
 .heart-icon {
-  @apply w-5 h-[18px] mask-[url(/assets/heart.svg)];
+  @apply w-5 h-4.5 mask-[url(/assets/heart.svg)];
 }
 
 .heart-filled-icon {
-  @apply w-5 h-[18px] mask-[url(/assets/heart-fill.svg)];
+  @apply w-5 h-4.5 mask-[url(/assets/heart-fill.svg)];
 }
 
 .user-icon {

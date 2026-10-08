@@ -12,7 +12,7 @@
 }
 
 .recommendations-page {
-  @apply grid gap-[26px] grow-0 shrink-0 basis-full min-w-0 snap-start;
+  @apply grid gap-6.5 grow-0 shrink-0 basis-full min-w-0 snap-start;
   & h3 {
     @apply text-[14px] font-normal wrap-anywhere;
   }

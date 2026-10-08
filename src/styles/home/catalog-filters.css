@@ -8,6 +8,13 @@
   @apply min-w-0 self-start;
 }
 
+.filter-option-skeleton {
+  @apply flex items-center h-10;
+  & .skeleton {
+    @apply aspect-auto h-4 w-3/4;
+  }
+}
+
 .featured-nft {
   @apply mt-4 pt-4 px-4 bg-[linear-gradient(180deg,rgba(210,138,76,0.1)_0%,rgba(210,138,76,0.03)_100%)];
   & h2 {
@@ -18,7 +25,7 @@
   }
   & img,
   & .skeleton {
-    @apply block w-[calc(100%+32px)] max-w-none -mx-4 h-[368px] object-cover rounded-[22px];
+    @apply block w-[calc(100%+32px)] max-w-none -mx-4 h-92 object-cover rounded-[22px];
   }
 }
 
@@ -52,16 +59,16 @@
 .price-thumb {
   @apply block size-5 rounded-full bg-brand border-2 border-solid border-background cursor-grab;
   &:focus-visible {
-    @apply outline-2 outline-solid outline-[#f5f1eb] outline-offset-3;
+    @apply outline-2 outline-solid outline-foreground outline-offset-3;
   }
 }
 
 .price-filter-value {
-  @apply text-foreground text-[14px] leading-6 mt-3 mb-2;
+  @apply text-foreground text-sm leading-6 mt-3 mb-2;
 }
 
 .price-filter {
   & .button {
-    @apply rounded-[6px] bg-brand text-background font-bold text-[16px] leading-5 px-4 py-[10px];
+    @apply rounded-md bg-brand text-background font-bold text-base leading-5 px-4 py-2.5;
   }
 }

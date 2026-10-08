@@ -1,14 +1,14 @@
 /* receipt: estilos do bloco e variações responsivas. */
 
 .receipt-modal {
-  @apply w-[min(584px,_calc(100%_-_32px))] bg-panel rounded-none border-b-[10px] border-solid border-b-primary p-10;
+  @apply w-[min(584px,_calc(100%_-_32px))] bg-panel rounded-none border-b-10 border-solid border-b-primary p-10;
   & > h2 {
     @apply text-[16px];
   }
 }
 
 .receipt-icon {
-  @apply block w-[66px] h-20 mt-0 mx-auto mb-4 bg-current text-primary mask-[url(/assets/thank-you.svg)] mask-center mask-contain mask-no-repeat;
+  @apply block w-16.5 h-20 mt-0 mx-auto mb-4 bg-current text-primary mask-[url(/assets/thank-you.svg)] mask-center mask-contain mask-no-repeat;
 }
 
 .receipt-modal > h2:first-of-type,

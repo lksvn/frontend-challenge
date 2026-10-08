@@ -3,10 +3,10 @@
 .promos {
   @apply grid grid-cols-2 gap-8 my-20 mx-0;
   & .promo-card {
-    @apply grid items-center overflow-hidden h-[250px] grid-cols-[250px_minmax(0,1fr)] gap-4 rounded-lg bg-card;
+    @apply grid items-center overflow-hidden h-62.5 grid-cols-[250px_minmax(0,1fr)] gap-4 rounded-lg bg-card;
   }
   & .promo-card > img {
-    @apply w-[250px] h-[250px] object-contain rounded-[18px];
+    @apply w-62.5 h-62.5 object-contain rounded-[18px];
   }
   & .promo-card > div {
     @apply p-0 pr-6 text-right min-w-0;
@@ -15,18 +15,18 @@
 
 .promo-card {
   & h2 {
-    @apply m-0 text-foreground font-bold text-[18px] leading-6;
+    @apply m-0 text-foreground font-bold text-lg leading-6;
   }
   & p {
-    @apply my-2 font-normal text-[14px] leading-6 text-copy;
+    @apply my-2 font-normal text-sm leading-6 text-copy;
   }
   & a {
-    @apply gap-2 w-[140px] h-10 py-3 px-4 rounded-[6px] bg-brand text-background font-medium text-[14px] leading-5;
+    @apply gap-2 w-35 h-10 py-3 px-4 rounded-md bg-brand text-background font-medium text-sm leading-5;
   }
 }
 
 .arrow-right-icon {
-  @apply w-[14px] h-[14px] mask-[url(/assets/arrow-right.svg)];
+  @apply w-3.5 h-3.5 mask-[url(/assets/arrow-right.svg)];
 }
 
 @media (max-width: 1100px) {
@@ -41,7 +41,7 @@
       @apply h-auto grid-cols-1 gap-0;
     }
     & .promo-card > img {
-      @apply w-full max-w-[250px] h-auto justify-self-center;
+      @apply w-full max-w-62.5 h-auto justify-self-center;
     }
     & .promo-card > div {
       @apply p-4 text-center;
@@ -55,29 +55,29 @@
     @apply text-foreground font-bold text-[28px] leading-none text-center;
   }
   & > p {
-    @apply font-normal text-[14px] leading-none text-center text-copy;
+    @apply font-normal text-sm leading-none text-center text-copy;
   }
 }
 
 .journal-grid {
   @apply grid grid-cols-4 gap-6 mt-8 text-left;
   & article {
-    @apply bg-card rounded-lg overflow-hidden text-copy font-medium text-[12px] leading-4 min-w-0;
+    @apply bg-card rounded-lg overflow-hidden text-copy font-medium text-xs leading-4 min-w-0;
   }
   & img {
-    @apply w-full h-[195px] object-cover rounded-t-lg;
+    @apply w-full h-48.75 object-cover rounded-t-lg;
   }
   & article > div {
     @apply flex flex-col gap-2 p-4;
   }
   & .text-copy {
-    @apply m-0 text-[12px] leading-4 font-medium text-copy;
+    @apply m-0 text-xs leading-4 font-medium text-copy;
   }
   & h3 {
-    @apply m-0 text-foreground font-bold text-[16px] leading-none;
+    @apply m-0 text-foreground font-bold text-base leading-none;
   }
   & a {
-    @apply text-highlight font-bold text-[12px] leading-[14px];
+    @apply text-highlight font-bold text-xs leading-3.5;
   }
 }
 

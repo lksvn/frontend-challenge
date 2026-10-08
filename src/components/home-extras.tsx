@@ -17,8 +17,8 @@ export function HomeExtras() {
             <p>Colecione edições escassas diretamente dos criadores antes da revelação pública.</p>
             <Button asChild>
               <a href={`${import.meta.env.BASE_URL}?category=Arte%20digital#catalogo`}>
-                <span className="asset-icon arrow-right-icon" aria-hidden="true" />
                 Explorar
+                <span className="asset-icon arrow-right-icon" aria-hidden="true" />
               </a>
             </Button>
           </div>
@@ -39,8 +39,8 @@ export function HomeExtras() {
             </p>
             <Button asChild>
               <a href={`${import.meta.env.BASE_URL}?category=Arte%203D#catalogo`}>
-                <span className="asset-icon arrow-right-icon" aria-hidden="true" />
                 Explorar
+                <span className="asset-icon arrow-right-icon" aria-hidden="true" />
               </a>
             </Button>
           </div>
