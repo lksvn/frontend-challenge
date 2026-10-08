@@ -1,3 +1,4 @@
+import { CartSkeleton } from '../components/cart-skeleton'
 import { CouponField } from '../components/coupon-field'
 import { useCoupon } from '../hooks/use-coupon'
 import { useQuery } from '@tanstack/react-query'
@@ -44,6 +45,15 @@ export function CartPage() {
           <span className="asset-icon pagination-chevron" aria-hidden="true" />
         </button>
         <h1>Carrinho de NFTs</h1>
+        <Link
+          className="cart-home"
+          to="/"
+          hash="catalogo"
+          search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
+          aria-label="Voltar ao início"
+        >
+          <span className="asset-icon mobile-home-icon" aria-hidden="true" />
+        </Link>
       </div>
       <nav className="detail-breadcrumb" aria-label="Navegação estrutural">
         <Link to="/" search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}>
@@ -61,7 +71,7 @@ export function CartPage() {
         </div>
       )}
       {cartQuery.isPending ? (
-        <div className="skeleton" aria-label="Carregando carrinho" />
+        <CartSkeleton />
       ) : !cartQuery.data ? (
         <p role="alert">{getErrorMessage(cartQuery.error)}</p>
       ) : !cartQuery.data.length ? (
@@ -73,7 +83,7 @@ export function CartPage() {
             <h2>Resumo da carteira</h2>
             <CouponField coupon={coupon} onApply={applyCoupon} pending={quoteQuery.isFetching} />
             {quoteQuery.isPending ? (
-              <div className="skeleton" aria-label="Carregando resumo" />
+              <Summary cart />
             ) : quoteQuery.isError ? (
               <p role="alert">{getErrorMessage(quoteQuery.error)}</p>
             ) : (

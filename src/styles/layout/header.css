@@ -107,7 +107,8 @@
   .header-actions .header-login {
     @apply flex items-center justify-center size-11 p-0 bg-transparent text-copy border-0;
   }
-  .mobile-nav-start > a[aria-current] {
+  .mobile-nav-start > a[aria-current],
+  .header-actions .header-login[aria-current] {
     @apply text-brand;
   }
   .mobile-nav-start > a {

@@ -89,7 +89,7 @@ function Profile() {
             }}
           >
             <label>
-              Nome de exibição
+              <span className="account-field-label">Nome de exibição</span>
               <input
                 aria-describedby="profile-error"
                 name="name"
@@ -98,7 +98,7 @@ function Profile() {
               />
             </label>
             <label>
-              Nome de usuário
+              <span className="account-field-label">Nome de usuário</span>
               <input
                 aria-describedby="profile-error"
                 name="username"
@@ -108,7 +108,7 @@ function Profile() {
               />
             </label>
             <label>
-              E-mail
+              <span className="account-field-label">E-mail</span>
               <input
                 aria-describedby="profile-error"
                 name="email"
@@ -118,11 +118,11 @@ function Profile() {
               />
             </label>
             <label>
-              Nome ENS
+              <span className="account-field-label">Nome ENS</span>
               <EnsField defaultValue={profileQuery.data.ens ?? ''} errorId="profile-error" />
             </label>
             <label>
-              Apelido da carteira
+              <span className="account-field-label">Apelido da carteira</span>
               <input
                 aria-describedby="profile-error"
                 name="walletNickname"

@@ -44,4 +44,29 @@ test('carrinho altera quantidade, recalcula total e remove item', async ({ page 
   )
   await page.getByRole('button', { name: 'Remover Emerald Ape #042' }).click()
   await expect(page.getByText('Seu carrinho está vazio.', { exact: true })).toBeVisible()
+  if (testInfo.project.name === 'mobile') {
+    await page.getByRole('link', { name: 'Voltar ao início', exact: true }).click()
+    await expect(page).toHaveURL(/\/#catalogo$/)
+  }
+})
+
+test('alterar a quantidade preserva a ordem dos itens após recarregar', async ({ page }) => {
+  await page.addInitScript(() => {
+    Math.random = () => 0.5
+  })
+  await page.goto('/nfts/1')
+  await page.locator('.purchase-primary').click()
+  await expect(page.getByText('Adicionado ao carrinho.', { exact: true })).toBeVisible()
+  await page.goto('/nfts/2')
+  await page.locator('.purchase-primary').click()
+  await expect(page.getByText('Adicionado ao carrinho.', { exact: true })).toBeVisible()
+  await page.goto('/cart')
+  const names = page.locator('.cart-row h2')
+  await expect(names).toHaveCount(2)
+  const originalOrder = await names.allTextContents()
+  await page.getByRole('button', { name: `Aumentar quantidade de ${originalOrder[0]}` }).click()
+  await expect(page.locator('.cart-row').first().locator('output')).toHaveText('2')
+  await expect(names).toHaveText(originalOrder)
+  await page.reload()
+  await expect(names).toHaveText(originalOrder)
 })

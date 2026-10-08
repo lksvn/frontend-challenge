@@ -1,7 +1,7 @@
 import { SuccessMessage } from '../components/success-message'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useRouter, useNavigate } from '@tanstack/react-router'
+import { useRouter, useNavigate, useSearch } from '@tanstack/react-router'
 import { api, getErrorMessage } from '../lib/api'
 import { Private } from '../account'
 import { useSession } from '../hooks/use-session'
@@ -11,6 +11,7 @@ import { EnsField } from '../components/ens-field'
 import type { Wallet } from '../contracts'
 
 function Wallets() {
+  const { from } = useSearch({ from: '/wallets' })
   const router = useRouter()
   const navigate = useNavigate()
   const sessionQuery = useSession()
@@ -32,21 +33,24 @@ function Wallets() {
   const secondaryWallet = walletsQuery.data?.find((wallet) => !wallet.primary)
   const selectedWallet = editing === undefined ? primaryWallet : editing
   return (
-    <section className="account-layout wallets-page">
+    <section
+      className={`account-layout wallets-page${from === 'checkout' ? ' wallets-checkout' : ''}`}
+    >
       <div className="mobile-page-heading">
         <Button
           variant="outline"
           aria-label="Voltar"
           onClick={() => {
             if (router.history.canGoBack()) router.history.back()
-            else void navigate({ to: '/profile', replace: true })
+            else
+              void navigate({ to: from === 'checkout' ? '/checkout' : '/profile', replace: true })
           }}
         >
           <span className="asset-icon pagination-chevron" aria-hidden="true" />
         </Button>
         <h1>Carteiras</h1>
       </div>
-      <AccountMenu />
+      {from !== 'checkout' && <AccountMenu />}
       <div>
         <div className="wallet-heading">
           <h1>
@@ -81,7 +85,7 @@ function Wallets() {
           }}
         >
           <label>
-            Nome de exibição
+            <span className="account-field-label">Nome de exibição</span>
             <input
               aria-describedby="wallet-error"
               name="name"
@@ -90,7 +94,7 @@ function Wallets() {
             />
           </label>
           <label>
-            Apelido da carteira
+            <span className="account-field-label">Apelido da carteira</span>
             <input
               aria-describedby="wallet-error"
               name="nickname"
@@ -99,19 +103,23 @@ function Wallets() {
             />
           </label>
           <label>
-            Rede
+            <span className="account-field-label">Rede</span>
             <select
               aria-describedby="wallet-error"
               name="network"
-              defaultValue={selectedWallet?.network ?? 'Ethereum'}
+              required
+              defaultValue={selectedWallet?.network ?? ''}
             >
+              <option value="" disabled>
+                Selecione uma rede
+              </option>
               <option>Ethereum</option>
               <option>Polygon</option>
               <option>Solana</option>
             </select>
           </label>
           <label>
-            Nome do perfil
+            <span className="account-field-label">Nome do perfil</span>
             <input
               name="profileName"
               required
@@ -121,9 +129,10 @@ function Wallets() {
             />
           </label>
           <label>
-            Endereço da carteira
+            <span className="account-field-label">Endereço da carteira</span>
             <input
               name="address"
+              placeholder="Endereço 0x da carteira"
               aria-describedby="wallet-error"
               required
               defaultValue={selectedWallet?.address ?? ''}
@@ -140,19 +149,23 @@ function Wallets() {
             />
           </label>
           <label>
-            Tipo de carteira
+            <span className="account-field-label">Tipo de carteira</span>
             <select
               aria-describedby="wallet-error"
               name="provider"
-              defaultValue={selectedWallet?.provider ?? 'MetaMask'}
+              required
+              defaultValue={selectedWallet?.provider ?? ''}
             >
+              <option value="" disabled>
+                Selecione uma carteira
+              </option>
               <option>MetaMask</option>
               <option>Coinbase Wallet</option>
               <option>WalletConnect</option>
             </select>
           </label>
           <label>
-            Código de indicação
+            <span className="account-field-label">Código de indicação</span>
             <input
               name="referral"
               required
@@ -162,7 +175,7 @@ function Wallets() {
             />
           </label>
           <label>
-            E-mail
+            <span className="account-field-label">E-mail</span>
             <input
               aria-describedby="wallet-error"
               name="email"
@@ -172,7 +185,7 @@ function Wallets() {
             />
           </label>
           <label>
-            Nome ENS
+            <span className="account-field-label">Nome ENS</span>
             <EnsField
               defaultValue={selectedWallet?.ens ?? sessionQuery.data?.ens ?? ''}
               errorId="wallet-error"

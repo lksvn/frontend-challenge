@@ -17,18 +17,27 @@
   & h2 {
     @apply text-[16px] px-3 mb-2;
   }
-  & button,
-  & > a {
-    @apply flex justify-start items-center gap-3 w-full px-3 py-3 m-0 border-0 rounded-none text-primary text-[13px] font-normal;
+  & nav button,
+  & nav > a {
+    @apply flex justify-start items-center gap-0 w-full p-0 pr-3 m-0 border-0 border-l-6 border-l-transparent rounded-none text-highlight text-[15px] leading-11.25 font-normal;
   }
-  & > a[aria-current='page'] {
-    @apply border-l-4 border-primary pl-2;
+  & nav > a[aria-current='page'] {
+    @apply border-l-brand;
+    & .asset-icon {
+      @apply text-highlight;
+    }
   }
   & .account-logout {
-    @apply border-t border-border-muted font-semibold mt-1;
+    @apply border-l-0 border-t border-border-muted font-bold mt-1;
+    & .asset-icon {
+      @apply text-highlight;
+    }
   }
   & .asset-icon {
-    @apply w-4 h-4 shrink-0;
+    @apply size-4 shrink-0 m-3.5 text-copy;
+  }
+  & .account-menu-toggle {
+    @apply hidden;
   }
 }
 
@@ -39,7 +48,7 @@
 }
 
 .profile-fields {
-  @apply grid grid-cols-2 gap-x-6 gap-y-5;
+  @apply grid grid-cols-2 gap-x-6 gap-y-7;
   & > label {
     @apply m-0;
   }
@@ -55,7 +64,7 @@
 .profile-password {
   @apply w-[calc((100%_-_24px)/2)] mt-6;
   & h2 {
-    @apply text-[14px] font-normal;
+    @apply text-sm font-bold mb-5;
   }
 }
 
@@ -80,8 +89,11 @@
   }
 }
 
-.account-text-button {
-  @apply border-0 p-0 font-normal bg-transparent;
+.button.account-text-button {
+  @apply border-0 p-0 font-normal bg-transparent text-highlight;
+  &:hover {
+    @apply bg-transparent;
+  }
 }
 
 .wallet-heading {
@@ -102,7 +114,7 @@
 .account-layout {
   & input,
   & select {
-    @apply border-border-muted rounded-none;
+    @apply min-h-10 border-border rounded;
   }
 }
 
@@ -112,12 +124,20 @@
   }
 
   .account-menu {
-    @apply flex flex-wrap gap-3 items-center;
-    & button,
-    & > a {
-      @apply w-auto m-0;
+    & h2 {
+      @apply hidden;
     }
-    & p {
+    & .account-menu-toggle {
+      @apply flex items-center justify-between px-4 border-0 text-sm font-bold;
+      & .asset-icon {
+        @apply m-0 ml-3 rotate-90;
+      }
+      &[aria-expanded='true'] .asset-icon {
+        @apply -rotate-90;
+      }
+    }
+    & nav[data-open='false'],
+    & nav > button:disabled:not(.account-logout) {
       @apply hidden;
     }
   }
@@ -136,7 +156,6 @@
 @media (max-width: 600px) {
   body:has(.mobile-wallets-view, .mobile-profile-view, .mobile-favorites-view) {
     @apply p-0;
-    & .site-header,
     & .site-footer {
       @apply hidden;
     }
@@ -144,42 +163,13 @@
   main.mobile-wallets-view,
   main.mobile-profile-view,
   main.mobile-favorites-view {
-    @apply px-7 pt-22 pb-7;
+    @apply px-7 pt-22;
+    padding-bottom: calc(154px + env(safe-area-inset-bottom));
   }
   .wallets-page,
   .profile-page,
   .favorites-page {
     @apply m-0 grid-cols-1;
-  }
-  .wallets-page > .account-menu {
-    @apply hidden;
-  }
-}
-
-@media (max-width: 600px) {
-  :is(.profile-page, .favorites-page) > .account-menu {
-    @apply grid grid-cols-2 gap-2 p-3 rounded-2xl;
-
-    & h2,
-    & > button:not(.account-logout) {
-      @apply hidden;
-    }
-
-    & > a {
-      @apply w-full rounded-lg px-3 py-3 border-0;
-    }
-
-    & > a[aria-current='page'] {
-      @apply bg-background text-highlight;
-    }
-
-    & .account-logout {
-      @apply col-span-full w-full mt-1;
-    }
-
-    & > p {
-      @apply block col-span-full;
-    }
   }
 }
 
@@ -191,13 +181,13 @@
 }
 .favorite-row {
   @apply flex items-center gap-4 min-w-0 p-3 rounded-lg bg-card;
-  & > a {
+  & nav > a {
     @apply shrink-0;
   }
   & img {
     @apply size-17.5 rounded-md object-cover;
   }
-  & > div:first-of-type {
+  & .favorite-info {
     @apply flex-1 min-w-0;
   }
   & h2 {
@@ -207,7 +197,11 @@
     @apply text-[14px] text-copy my-2;
   }
   & .price {
-    @apply text-[16px] m-0;
+    @apply text-[16px] m-0 flex flex-wrap gap-x-2;
+  }
+  & .price-current,
+  & .price-discount {
+    @apply whitespace-nowrap m-0;
   }
   & .button {
     @apply border-0 bg-transparent size-11 p-0;
@@ -219,11 +213,88 @@
     @apply hidden;
   }
 }
+
+.favorites-empty {
+  @apply m-0 p-6 rounded-lg bg-card text-copy;
+}
+
+.favorite-row-skeleton {
+  & .favorite-image {
+    @apply size-17.5 shrink-0 rounded-md;
+  }
+  & h2,
+  & p {
+    @apply aspect-auto text-transparent rounded;
+  }
+}
+
 @media (max-width: 600px) {
   .favorites-heading {
     @apply sr-only;
   }
-  :is(.profile-page, .favorites-page) > .account-menu > a:last-of-type {
+  :is(.profile-page, .favorites-page, .wallets-page) > .account-menu nav > a:last-of-type {
     @apply col-span-full;
+  }
+  .favorite-row {
+    @apply relative grid grid-cols-[70px_minmax(0,1fr)] items-start gap-3;
+    & > div:last-child:not(.favorite-info) {
+      @apply absolute top-2 right-2;
+    }
+    & h2 {
+      @apply text-sm leading-5 pr-9 wrap-anywhere;
+    }
+    & .favorite-token {
+      @apply text-xs leading-4 my-2;
+    }
+    & .price {
+      @apply text-sm leading-5;
+    }
+  }
+}
+
+.wallets-page .wallet-fields {
+  @apply items-end gap-x-6 gap-y-7;
+  & > label {
+    @apply gap-0;
+  }
+  & > p:empty {
+    @apply hidden;
+  }
+}
+
+.wallets-checkout {
+  @apply grid-cols-1;
+}
+
+.account-field-label::after {
+  content: ' *';
+  @apply text-[#F47852];
+}
+
+.profile-avatar > label {
+  @apply -ml-16;
+}
+
+.profile-page {
+  & .ens-field > span {
+    @apply border-border rounded;
+  }
+  & .avatar-placeholder {
+    @apply border border-border;
+  }
+  & .profile-password > .button {
+    @apply min-w-28 mt-2;
+  }
+  & #password-error:empty {
+    @apply hidden;
+  }
+}
+
+@media (max-width: 600px) {
+  body:has(.wallets-checkout) .site-header {
+    @apply hidden;
+  }
+  main.mobile-wallets-view:has(.wallets-checkout) {
+    @apply pb-7;
   }
 }

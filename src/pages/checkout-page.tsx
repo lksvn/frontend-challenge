@@ -231,7 +231,10 @@ function Checkout() {
                 <span className="payment-desktop-label">Carteira e rede</span>
                 <span className="payment-mobile-label payment-wallet-heading">
                   Carteira conectada
-                  <button type="button" onClick={() => void navigate({ to: '/wallets' })}>
+                  <button
+                    type="button"
+                    onClick={() => void navigate({ to: '/wallets', search: { from: 'checkout' } })}
+                  >
                     Trocar carteira
                   </button>
                 </span>
@@ -269,7 +272,7 @@ function Checkout() {
               className="payment-desktop-label"
               type="button"
               variant="outline"
-              onClick={() => void navigate({ to: '/wallets' })}
+              onClick={() => void navigate({ to: '/wallets', search: { from: 'checkout' } })}
             >
               Cadastrar ou editar carteira
             </Button>

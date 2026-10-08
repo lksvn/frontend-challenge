@@ -65,8 +65,14 @@ export const commerceHandlers = [
       quantity > nft.available
     )
       return error('Quantidade indisponível.', 409, 'AVAILABILITY')
-    const items = cart().filter((item) => item.nft.id !== nft.id || item.edition !== edition)
-    if (quantity) items.push({ nft, quantity, edition })
+    const items = [...cart()]
+    const index = items.findIndex((item) => item.nft.id === nft.id && item.edition === edition)
+    if (index !== -1) {
+      if (quantity) items[index] = { nft, quantity, edition }
+      else items.splice(index, 1)
+    } else if (quantity) {
+      items.push({ nft, quantity, edition })
+    }
     store().carts[cartKey()] = items
     save()
     return HttpResponse.json(items)

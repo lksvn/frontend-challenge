@@ -1,4 +1,4 @@
-import { useBlocker, useNavigate } from '@tanstack/react-router'
+import { useBlocker, useNavigate, useRouterState } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { getErrorMessage } from './lib/api'
 import { useSession } from './hooks/use-session'
@@ -27,6 +27,7 @@ export function AuthNavigation() {
 }
 
 export function SessionNav() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
   const [loginOpen, setLoginOpen] = useState(false)
   const session = useSession()
   const navigate = useNavigate()
@@ -49,7 +50,11 @@ export function SessionNav() {
         )}
       </button>
       {session.data ? (
-        <Button className="header-login" onClick={() => void navigate({ to: '/profile' })}>
+        <Button
+          className="header-login"
+          aria-current={pathname === '/profile' || pathname === '/wallets' ? 'page' : undefined}
+          onClick={() => void navigate({ to: '/profile' })}
+        >
           <span className="asset-icon user-icon" aria-hidden="true" />
           <span className="session-label">Meu perfil</span>
         </Button>

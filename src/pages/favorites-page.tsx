@@ -49,10 +49,30 @@ function Favorites() {
         <h1 className="favorites-heading">Favoritos</h1>
         {favorites.isPending && <p role="status">Carregando favoritos…</p>}
         {favorites.isError && <p role="alert">{getErrorMessage(favorites.error)}</p>}
-        {favorites.data?.length === 0 && <p>Você ainda não favoritou nenhum NFT.</p>}
+        {favorites.data?.length === 0 && (
+          <p className="favorites-empty" role="status">
+            Você ainda não favoritou nenhum NFT.
+          </p>
+        )}
         <div className="favorites-list">
           {nfts.map((query, index) => {
             const nft = query.data
+            if (query.isPending)
+              return (
+                <article
+                  className="favorite-row favorite-row-skeleton"
+                  key={favorites.data![index]}
+                  aria-label="Carregando NFT"
+                  aria-busy="true"
+                >
+                  <div className="skeleton favorite-image" aria-hidden="true" />
+                  <div className="favorite-info" aria-hidden="true">
+                    <h2 className="skeleton">Carregando NFT</h2>
+                    <p className="favorite-token skeleton">ID do token</p>
+                    <p className="price skeleton">0.00 ETH</p>
+                  </div>
+                </article>
+              )
             if (!nft)
               return (
                 <p key={favorites.data![index]} role={query.isError ? 'alert' : 'status'}>
@@ -64,7 +84,7 @@ function Favorites() {
                 <Link to="/nfts/$id" params={{ id: nft.id }}>
                   <img src={nft.image} alt={nft.name} width="70" height="70" />
                 </Link>
-                <div>
+                <div className="favorite-info">
                   <h2>
                     <Link to="/nfts/$id" params={{ id: nft.id }}>
                       {nft.name}

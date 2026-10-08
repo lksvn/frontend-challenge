@@ -106,30 +106,34 @@ export function AddToCart({ nft }: { nft: Nft }) {
   )
 }
 
-export function Summary({ quote, cart = false }: { quote: Quote; cart?: boolean }) {
+export function Summary({ quote, cart = false }: { quote?: Quote; cart?: boolean }) {
   return (
-    <dl className={cart ? 'summary summary-cart' : 'summary'}>
+    <dl
+      className={`${cart ? 'summary summary-cart' : 'summary'}${quote ? '' : ' summary-skeleton'}`}
+      aria-busy={!quote}
+      aria-label={quote ? undefined : 'Carregando resumo'}
+    >
       <div>
         <dt>Subtotal</dt>
-        <dd>{quote.subtotal} ETH</dd>
+        <dd>{quote?.subtotal ?? '0.000'} ETH</dd>
       </div>
       <div>
         <dt>{cart ? 'Desconto do lançamento' : 'Desconto'}</dt>
         <dd>
           {cart && '(-) '}
-          {quote.discount}
+          {quote?.discount ?? '0.000'}
         </dd>
       </div>
       <div>
         <dt>Taxa de rede</dt>
         <dd>
-          {quote.fee} ETH
+          {quote?.fee ?? '0.000'} ETH
           {cart && <small className="cart-fee-estimate">Taxa estimada</small>}
         </dd>
       </div>
       <div className="price">
         <dt>Total</dt>
-        <dd>{quote.total} ETH</dd>
+        <dd>{quote?.total ?? '0.000'} ETH</dd>
       </div>
     </dl>
   )

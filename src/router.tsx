@@ -126,6 +126,9 @@ const profile = createRoute({
 const wallets = createRoute({
   getParentRoute: () => root,
   path: '/wallets',
+  validateSearch: (search: Record<string, unknown>): { from?: 'checkout' } => ({
+    from: search.from === 'checkout' ? 'checkout' : undefined,
+  }),
   component: WalletsPage,
 })
 const favorites = createRoute({
