@@ -1,0 +1,30 @@
+/* demo: estilos do bloco e variações responsivas. */
+
+.demo-panel {
+  @apply fixed right-4 bottom-4 z-30 w-[min(320px,_calc(100vw_-_32px))] max-h-[calc(100dvh_-_250px)] overflow-y-auto bg-input border border-solid border-border rounded-lg shadow-[0_8px_32px_#0008] px-3.5 text-[13px];
+  & summary {
+    @apply cursor-pointer font-semibold sticky top-0 bg-input p-3.5;
+  }
+  & summary span {
+    @apply block mt-1 font-normal;
+  }
+}
+
+@media (max-width: 600px) {
+  .demo-panel {
+    @apply bottom-32;
+  }
+}
+
+.demo-controls {
+  @apply grid gap-[10px] mt-4;
+}
+
+.demo-panel {
+  & > [role='status']:not(:empty) {
+    @apply block mt-3 max-h-24 overflow-y-auto wrap-anywhere;
+  }
+  & summary:focus-visible {
+    @apply outline-2 outline-solid outline-[#ce8745] outline-offset-4;
+  }
+}

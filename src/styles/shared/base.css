@@ -1,0 +1,174 @@
+/* base: estilos do bloco e variações responsivas. */
+
+@theme inline {
+  --font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --color-brand: #d28a4c;
+  --color-highlight: #e89b55;
+  --color-copy: #cfb28c;
+  --color-card: #241612;
+  --color-field-border: #3f2319;
+  --color-primary: #ce8745;
+  --color-primary-foreground: #160e0a;
+  --color-secondary: #291a14;
+  --color-background: #140d0a;
+  --color-panel: #291a14;
+  --color-input: #160e0a;
+  --color-border: #745033;
+  --color-border-muted: #493020;
+  --color-foreground: #f5f1eb;
+}
+
+:root {
+  @apply scheme-dark font-mono text-foreground bg-background;
+}
+
+* {
+  @apply box-border;
+}
+
+body {
+  @apply m-0 py-5;
+}
+
+a {
+  @apply no-underline;
+}
+
+a[href],
+button,
+summary,
+select,
+input[type='checkbox'],
+input[type='radio'],
+input[type='range'],
+input[type='file'],
+label:has(input[type='checkbox']),
+label:has(input[type='radio']) {
+  @apply cursor-pointer;
+}
+
+button:disabled,
+select:disabled,
+input:disabled,
+[aria-disabled='true'],
+label:has(input:disabled) {
+  @apply cursor-not-allowed;
+}
+
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  @apply outline-2 outline-solid outline-[#f4b578] outline-offset-4;
+}
+
+button,
+input,
+select {
+  @apply [font:inherit];
+}
+
+main {
+  @apply max-w-300 m-auto p-6;
+}
+
+h1 {
+  @apply text-[clamp(26px,3vw,43px)] leading-[1.63] font-bold;
+}
+
+h2 {
+  @apply text-[18px] font-bold mb-[18px];
+}
+
+h3 {
+  @apply mt-3 mx-0 mb-1 text-[14px];
+}
+
+p {
+  @apply my-3 mx-0 leading-[1.6];
+}
+
+label {
+  @apply grid gap-2 mb-5 text-[14px];
+}
+
+input,
+select {
+  @apply w-full min-w-0 p-[10px] border border-solid border-border rounded bg-input text-[#f5eee9];
+}
+
+.price {
+  @apply text-[#f1a058] font-bold;
+}
+
+.skeleton {
+  @apply aspect-square bg-[linear-gradient(90deg,#291a14_25%,#513727_50%,#291a14_75%)] bg-size-[200%_100%] rounded-xl animate-[shimmer_1.5s_linear_infinite];
+}
+
+.skeleton-line {
+  @apply h-4 aspect-auto my-3 mx-0 w-[80%];
+}
+
+main p {
+  @apply wrap-anywhere;
+}
+
+.actions {
+  @apply flex flex-wrap gap-2;
+}
+
+.dialog-overlay {
+  @apply z-40 fixed inset-0 bg-[#000a];
+}
+
+.dialog-content {
+  @apply z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(640px,_calc(100%_-_32px))] max-h-[90dvh] overflow-y-auto bg-input border border-solid border-border p-6 rounded-xl;
+  & > h2 {
+    @apply text-[24px];
+  }
+  & button {
+    @apply mr-2;
+  }
+}
+
+.checkbox {
+  @apply flex items-center;
+  & input {
+    @apply w-auto;
+  }
+}
+
+textarea {
+  @apply w-full min-h-30 border border-solid border-border p-3 rounded;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    @apply animate-none! transition-none! scroll-auto!;
+  }
+}
+
+@media (max-width: 600px) {
+  main {
+    @apply p-4;
+  }
+}
+
+button:focus-visible {
+  @apply outline-2 outline-solid outline-[#f4b578] outline-offset-3;
+}
+
+.modal-close {
+  @apply absolute right-3 top-2 text-primary text-[28px] cursor-pointer;
+}
+
+.price-discount {
+  @apply line-through ml-2 text-[#B39463];
+}

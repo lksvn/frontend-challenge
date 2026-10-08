@@ -1,0 +1,67 @@
+/* catalog-filters: estilos do bloco e variações responsivas. */
+
+.filters {
+  @apply bg-panel p-5 self-start;
+}
+
+.catalog-sidebar {
+  @apply min-w-0 self-start;
+}
+
+.featured-nft {
+  @apply mt-4 pt-4 px-4 bg-[linear-gradient(180deg,rgba(210,138,76,0.1)_0%,rgba(210,138,76,0.03)_100%)];
+  & h2 {
+    @apply text-highlight font-bold text-[20px] mt-0 mb-2;
+  }
+  & .featured-offer {
+    @apply text-foreground font-bold text-[18px] text-center mt-0 mb-2;
+  }
+  & img,
+  & .skeleton {
+    @apply block w-[calc(100%+32px)] max-w-none -mx-4 h-[368px] object-cover rounded-[22px];
+  }
+}
+
+.filter-group {
+  @apply border-0 p-0 mt-0 mx-0 mb-8;
+  & legend {
+    @apply font-bold mb-3;
+  }
+}
+
+.filter-option {
+  @apply flex justify-between gap-3 w-full text-copy cursor-pointer leading-10 text-left text-[15px];
+  &[aria-pressed='true'],
+  &:hover {
+    @apply text-highlight;
+  }
+}
+
+.price-slider {
+  @apply relative flex items-center h-7 touch-none select-none;
+}
+
+.price-track {
+  @apply relative h-1 flex-1 rounded-full bg-brand;
+}
+
+.price-range {
+  @apply absolute h-full rounded-full bg-brand;
+}
+
+.price-thumb {
+  @apply block size-5 rounded-full bg-brand border-2 border-solid border-background cursor-grab;
+  &:focus-visible {
+    @apply outline-2 outline-solid outline-[#f5f1eb] outline-offset-3;
+  }
+}
+
+.price-filter-value {
+  @apply text-foreground text-[14px] leading-6 mt-3 mb-2;
+}
+
+.price-filter {
+  & .button {
+    @apply rounded-[6px] bg-brand text-background font-bold text-[16px] leading-5 px-4 py-[10px];
+  }
+}

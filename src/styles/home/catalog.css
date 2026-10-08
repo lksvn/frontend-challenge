@@ -1,0 +1,242 @@
+/* catalog: estilos do bloco e variações responsivas. */
+
+.catalog-layout {
+  @apply grid grid-cols-[310px_1fr] gap-8 py-8 px-0;
+}
+
+.catalog-toolbar {
+  @apply flex justify-between items-start gap-5 mb-4;
+}
+
+.nft-grid {
+  @apply grid grid-cols-3 gap-6;
+}
+
+.nft-card {
+  @apply min-w-0 pb-5;
+  & img {
+    @apply w-full h-auto rounded-2xl;
+  }
+  .nft-name {
+    @apply text-[16px] leading-4 text-foreground mt-3 mb-1 block;
+  }
+  .price {
+    @apply m-0 text-[18px];
+  }
+}
+
+.nft-card-art {
+  @apply relative py-6 px-2 bg-card;
+}
+
+.nft-rarity {
+  @apply absolute top-3.5 left-0 px-3 py-1 bg-brand text-background text-[18px] leading-4 pointer-events-none font-medium;
+}
+
+.nft-card-actions {
+  @apply absolute bottom-2 left-1/2 -translate-x-1/2 flex items-start gap-2 opacity-0 pointer-events-none;
+}
+
+.nft-card {
+  &:hover .nft-card-actions,
+  &:focus-within .nft-card-actions {
+    @apply opacity-100 pointer-events-auto;
+  }
+}
+
+.nft-card-actions {
+  & button,
+  & > a {
+    @apply w-7 h-7 p-0 border-0 rounded bg-panel text-foreground;
+  }
+  & .asset-icon {
+    @apply w-5 h-5;
+  }
+  & [role='alert']:empty {
+    @apply hidden;
+  }
+  & [role='alert']:not(:empty) {
+    @apply absolute top-full left-1/2 -translate-x-1/2 w-48 p-2 bg-panel text-[12px];
+  }
+}
+
+@media (hover: none), (max-width: 600px) {
+  .nft-card-actions {
+    @apply opacity-100 pointer-events-auto;
+  }
+}
+
+.pagination {
+  @apply flex justify-end flex-wrap gap-2.5 mt-6;
+  & button {
+    @apply inline-flex items-center justify-center min-w-[35px] min-h-[35px] rounded-[4px] border border-solid border-field-border bg-transparent text-foreground text-[18px] leading-[16px] font-normal py-2 px-2;
+  }
+  & button[aria-current='page'],
+  & button:not(:disabled):hover {
+    @apply bg-brand border-brand text-background;
+  }
+  & button:disabled {
+    @apply opacity-50;
+  }
+}
+
+.pagination-chevron {
+  @apply block size-3 bg-current;
+}
+
+@media (max-width: 900px) {
+  .catalog-layout {
+    @apply grid-cols-[180px_1fr] gap-5;
+  }
+
+  .nft-grid {
+    @apply grid-cols-2;
+  }
+}
+
+@media (max-width: 600px) {
+  .catalog-layout {
+    @apply grid-cols-1;
+  }
+
+  .nft-grid {
+    @apply gap-3;
+  }
+
+  .nft-card {
+    & img {
+      @apply border-[6px];
+    }
+  }
+
+  .catalog-toolbar {
+    @apply flex-col gap-0;
+  }
+}
+
+.catalog-views {
+  @apply flex flex-wrap gap-6 items-start;
+  & button {
+    @apply font-medium text-[14px] leading-[16px] text-foreground border-b-2 border-transparent pb-1;
+  }
+  & button[aria-current],
+  & button:hover {
+    @apply text-brand border-brand;
+  }
+}
+
+.catalog-sort {
+  @apply flex flex-wrap items-center gap-1 m-0 font-normal text-[14px] leading-[16px] text-foreground;
+}
+
+.catalog-sort-control {
+  @apply relative inline-flex items-center;
+}
+
+.catalog-sort {
+  & select {
+    @apply appearance-none w-auto [field-sizing:content] bg-transparent border-0 rounded-none p-0 pr-6 font-normal text-[14px] leading-[16px] text-foreground;
+  }
+  & option {
+    @apply bg-background text-foreground;
+  }
+}
+
+.catalog-sort-chevron {
+  @apply absolute right-0 size-4 rotate-90 bg-current pointer-events-none;
+}
+
+.mobile-catalog-search {
+  @apply hidden;
+}
+
+@media (max-width: 600px) {
+  .mobile-catalog-search {
+    @apply flex gap-2;
+    & form {
+      @apply flex items-center gap-2 flex-1 min-w-0 h-11 px-3 bg-card rounded-xl text-copy;
+    }
+    & input {
+      @apply min-w-0 w-full p-0 bg-transparent border-0 text-[14px] font-bold;
+    }
+    & input::placeholder {
+      @apply text-[#B39463] opacity-100;
+    }
+    & .asset-icon {
+      @apply size-5;
+    }
+  }
+  .mobile-filter-toggle {
+    @apply size-11 shrink-0 rounded-2xl bg-brand text-background text-[24px];
+  }
+  .catalog-sidebar {
+    @apply hidden;
+    &[data-mobile-open='true'] {
+      @apply block;
+    }
+    & .featured-nft {
+      @apply hidden;
+    }
+  }
+  .catalog-layout {
+    @apply py-0 gap-4;
+  }
+  .catalog-layout:has(.catalog-sidebar[data-mobile-open='false']) .catalog-sort {
+    @apply hidden;
+  }
+  .catalog-toolbar {
+    @apply gap-3;
+  }
+  .catalog-views {
+    @apply flex-nowrap gap-2;
+    & button {
+      @apply text-[12px] whitespace-nowrap;
+    }
+  }
+  .nft-grid {
+    @apply gap-4 pb-8;
+    & > .nft-card:nth-child(even) {
+      @apply translate-y-8;
+    }
+  }
+  .nft-card {
+    @apply pb-0;
+    & img {
+      @apply border-0;
+    }
+    & .nft-name {
+      @apply text-[14px] leading-5 mx-2 mb-0;
+    }
+    & .price {
+      @apply text-[14px] mx-2 flex flex-wrap gap-x-2;
+    }
+    & .price-current,
+    & .price-discount {
+      @apply whitespace-nowrap;
+    }
+  }
+  .nft-grid .nft-card-art {
+    @apply rounded-[24px] py-3 px-1;
+  }
+  .nft-grid .nft-card-actions {
+    @apply top-3 right-2 left-auto bottom-auto translate-x-0;
+    & > button,
+    & > a {
+      @apply hidden;
+    }
+    & > div button {
+      @apply rounded-full border border-brand text-brand;
+    }
+  }
+  .nft-rarity {
+    @apply text-[12px] px-2;
+  }
+  .pagination {
+    @apply justify-center;
+  }
+}
+
+.pagination-chevron,
+.catalog-sort-chevron {
+  mask: url('/assets/chevron-right.svg') center / contain no-repeat;
+}

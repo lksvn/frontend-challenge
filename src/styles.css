@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+@import './styles/shared/base.css' layer(base);
+@import './styles/layout/footer.css' layer(components);
+@import './styles/layout/header.css' layer(components);
+@import './styles/shared/icons.css' layer(components);
+@import './styles/nft/nft-detail.css' layer(components);
+@import './styles/home/home-content.css' layer(components);
+@import './styles/home/hero.css' layer(components);
+@import './styles/home/catalog.css' layer(components);
+@import './styles/home/catalog-filters.css' layer(components);
+@import './styles/nft/nft-purchase.css' layer(components);
+@import './styles/commerce/recommendations.css' layer(components);
+@import './styles/commerce/commerce.css' layer(components);
+@import './styles/commerce/cart.css' layer(components);
+@import './styles/commerce/payment.css' layer(components);
+@import './styles/commerce/receipt.css' layer(components);
+@import './styles/account/auth.css' layer(components);
+@import './styles/account/account.css' layer(components);
+@import './styles/shared/form-fields.css' layer(components);
+@import './styles/demo/demo.css' layer(components);
+@import './styles/shared/buttons.css' layer(components);

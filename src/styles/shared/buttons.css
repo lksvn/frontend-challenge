@@ -1,0 +1,35 @@
+/* buttons: estilos do bloco e variações responsivas. */
+
+.button {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 transition-colors;
+  & > img,
+  & > .asset-icon {
+    @apply shrink-0;
+  }
+  &:focus-visible {
+    @apply outline-2 outline-offset-4;
+  }
+  &:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+}
+
+.button-primary {
+  @apply bg-primary text-primary-foreground border-primary border;
+  &:hover {
+    @apply brightness-110;
+  }
+}
+
+.button-outline {
+  @apply border border-primary text-primary;
+  &:hover {
+    @apply bg-secondary;
+  }
+}
+
+@media (max-width: 600px) {
+  :is(.purchase-buttons, .cart-summary, .payment-summary) > .button.mobile-primary-action {
+    @apply rounded-[40px] px-11 py-5 h-auto bg-brand text-background font-bold text-[16px] leading-5;
+  }
+}

@@ -1,0 +1,108 @@
+.payment-page {
+  @apply mt-6;
+}
+
+.payment-layout {
+  @apply grid grid-cols-[minmax(0,1.9fr)_minmax(0,1fr)] gap-8 mt-8;
+}
+
+.payment-layout .collector-fields {
+  @apply gap-6;
+  & h2 {
+    @apply m-0;
+  }
+  & label {
+    @apply gap-2;
+  }
+  & input:not([type='checkbox']):not([type='hidden']),
+  & select {
+    @apply h-10 border-field-border;
+  }
+  & label:has(textarea) {
+    @apply col-span-1;
+  }
+  & textarea {
+    @apply min-h-[150px] border-field-border;
+  }
+}
+
+.payment-summary {
+  @apply min-w-0;
+  & > h2 {
+    @apply mt-0 mb-2;
+  }
+  & > .button:last-child {
+    @apply w-full bg-brand text-background font-bold;
+  }
+  & .summary > div {
+    @apply py-2;
+  }
+  & .summary dd {
+    @apply m-0 text-right;
+  }
+  & .summary > div:last-child {
+    @apply border-t border-field-border;
+  }
+}
+
+.payment-items-heading {
+  @apply flex justify-between border-b border-field-border pb-2 mb-3;
+}
+
+.payment-item {
+  @apply flex items-center gap-2 bg-card mb-3 min-w-0;
+  & img {
+    @apply size-[70px] shrink-0 object-cover rounded-[6px];
+  }
+  & > div {
+    @apply min-w-0 flex-1;
+  }
+  & h3 {
+    @apply m-0 text-[14px] font-bold;
+  }
+  & p {
+    @apply m-0 text-[12px] text-[#B39463];
+  }
+  & strong {
+    @apply text-highlight text-[16px] whitespace-nowrap pr-2;
+  }
+}
+
+.payment-item-quantity {
+  @apply text-copy text-[12px] whitespace-nowrap;
+}
+
+.payment-coupon-link {
+  @apply block w-full p-0 bg-transparent text-center text-[12px] my-3;
+}
+
+.payment-wallets {
+  @apply p-0 m-0 border-0;
+  & legend {
+    @apply w-full text-center text-[18px] font-bold mb-4;
+  }
+  & label {
+    @apply flex items-center gap-3 border border-field-border rounded-[3px] px-3 py-3 mb-4;
+  }
+  & label:has(input:checked) {
+    @apply border-brand;
+  }
+  & input {
+    @apply w-4 h-4 accent-brand m-0;
+  }
+}
+
+@media (max-width: 900px) {
+  .payment-layout {
+    @apply grid-cols-1;
+  }
+}
+
+@media (max-width: 600px) {
+  .payment-item {
+    @apply flex-wrap p-2;
+    & strong {
+      @apply ml-auto;
+    }
+  }
+}

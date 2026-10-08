@@ -1,0 +1,67 @@
+/* commerce: estilos do bloco e variações responsivas. */
+
+.checkout-layout {
+  @apply grid grid-cols-[1.3fr_1fr] gap-12 my-8 mx-0;
+}
+
+.cart-item {
+  @apply flex items-center flex-wrap gap-5 p-4 mb-4 bg-panel;
+  & img {
+    @apply rounded-lg;
+  }
+  & h2 {
+    @apply mb-0;
+  }
+  & input {
+    @apply max-w-[90px];
+  }
+}
+
+.summary {
+  @apply my-6 mx-0;
+  & > div {
+    @apply flex justify-between gap-5 py-[10px] px-0;
+  }
+  & > div:last-child {
+    @apply border-t border-solid border-t-border;
+  }
+}
+
+.wallet-fields,
+.collector-fields {
+  @apply grid grid-cols-2 gap-6 content-start;
+}
+
+.wallet-fields > h2,
+.wallet-fields > button,
+.wallet-fields > p,
+.wallet-fields > .checkbox,
+.collector-fields > h2,
+.collector-fields > .checkbox,
+.collector-fields > label:has(textarea) {
+  @apply col-span-full;
+}
+
+.wallet-fields label,
+.collector-fields label {
+  @apply m-0;
+}
+
+.wallet-fields {
+  & > button {
+    @apply justify-self-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .wallet-fields,
+  .collector-fields {
+    @apply grid-cols-1;
+  }
+}
+
+@media (max-width: 768px) {
+  .checkout-layout {
+    @apply grid-cols-1 gap-6;
+  }
+}

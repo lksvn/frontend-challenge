@@ -1,0 +1,89 @@
+/* icons: estilos do bloco e variações responsivas. */
+
+.asset-icon {
+  @apply inline-block flex-none w-6 h-6 bg-current mask-no-repeat mask-center mask-contain;
+}
+
+.search-icon {
+  @apply mask-[url(/assets/search-icon.svg)];
+}
+
+.send-icon {
+  @apply mask-[url(/assets/send.svg)];
+}
+
+.delete-icon {
+  @apply mask-[url(/assets/delete.svg)];
+}
+
+.mobile-home-icon {
+  @apply mask-[url(/assets/mobile-home.svg)] w-4 h-[17px];
+}
+
+.mobile-scan-icon {
+  @apply mask-[url(/assets/mobile-scan.svg)] w-[27px] h-6;
+}
+
+.mobile-filter-icon {
+  @apply mask-[url(/assets/mobile-filter.png)];
+}
+
+.cart-icon {
+  @apply mask-[url(/assets/cart-icon.svg)];
+}
+
+.star-icon {
+  @apply mask-[url(/assets/star.svg)];
+}
+
+.minus-icon {
+  @apply w-4 h-[3px] mask-[url(/assets/minus.svg)];
+}
+
+.plus-icon {
+  @apply w-4 h-4 mask-[url(/assets/plus.svg)];
+}
+
+.heart-icon {
+  @apply w-5 h-[18px] mask-[url(/assets/heart.svg)];
+}
+
+.heart-filled-icon {
+  @apply w-5 h-[18px] mask-[url(/assets/heart-fill.svg)];
+}
+
+.user-icon {
+  @apply mask-[url(/assets/user.svg)];
+}
+
+.image-icon {
+  @apply w-5 h-5 mask-[url(/assets/image.svg)];
+}
+
+.location-icon {
+  @apply mask-[url(/assets/location.svg)];
+}
+
+.activity-icon {
+  @apply mask-[url(/assets/activity.svg)];
+}
+
+.download-icon {
+  @apply mask-[url(/assets/download.svg)];
+}
+
+.danger-icon {
+  @apply mask-[url(/assets/danger.svg)];
+}
+
+.logout-icon {
+  @apply mask-[url(/assets/logout.svg)];
+}
+
+.eye-hide-icon {
+  @apply mask-[url(/assets/eye-hide.svg)];
+}
+
+.eye-show-icon {
+  @apply mask-[url(/assets/eye-show.svg)];
+}

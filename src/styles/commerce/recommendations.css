@@ -1,0 +1,54 @@
+/* recommendations: estilos do bloco e variações responsivas. */
+
+.cart-recommendations {
+  @apply mt-16 min-w-0 overflow-hidden;
+  & > h2 {
+    @apply text-[#eda35c] text-[16px] pb-2 border-b border-solid border-b-border-muted mb-8;
+  }
+}
+
+.recommendations-track {
+  @apply flex w-full min-w-0 [contain:layout_paint] overflow-x-auto snap-x snap-mandatory [scrollbar-width:none];
+}
+
+.recommendations-page {
+  @apply grid gap-[26px] grow-0 shrink-0 basis-full min-w-0 snap-start;
+  & h3 {
+    @apply text-[14px] font-normal wrap-anywhere;
+  }
+  & p {
+    @apply mt-1;
+  }
+  & .price {
+    @apply flex flex-wrap gap-x-2;
+  }
+  & .price-current,
+  & .price-discount {
+    @apply whitespace-nowrap;
+  }
+  & .price-discount {
+    @apply ml-0;
+  }
+}
+
+@media (max-width: 600px) {
+  .recommendations-page {
+    @apply gap-4;
+    & .nft-rarity {
+      @apply text-[12px] px-2;
+    }
+  }
+}
+
+.recommendations-dots {
+  @apply flex justify-center gap-2 mt-2;
+  & button {
+    @apply relative w-3 h-3 rounded-full border border-solid border-primary;
+  }
+  & button::before {
+    @apply content-[''] absolute inset-[-8px_-3px];
+  }
+  & button[aria-current='true'] {
+    @apply bg-primary;
+  }
+}

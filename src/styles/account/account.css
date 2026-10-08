@@ -1,0 +1,134 @@
+/* account: estilos do bloco e variações responsivas. */
+
+.wallet-item {
+  @apply flex flex-wrap justify-between gap-4 py-4 border-b border-border-muted wrap-anywhere;
+}
+
+.avatar {
+  @apply rounded-full object-cover;
+}
+
+.account-layout {
+  @apply grid grid-cols-[264px_minmax(0,1fr)] gap-6 mt-6;
+}
+
+.account-menu {
+  @apply bg-panel py-3 self-start;
+  & h2 {
+    @apply text-[16px] px-3 mb-2;
+  }
+  & button,
+  & > a {
+    @apply flex justify-start items-center gap-3 w-full px-3 py-3 m-0 border-0 rounded-none text-primary text-[13px] font-normal;
+  }
+  & > a[aria-current='page'] {
+    @apply border-l-4 border-primary pl-2;
+  }
+  & .account-logout {
+    @apply border-t border-border-muted font-semibold mt-1;
+  }
+  & .asset-icon {
+    @apply w-4 h-4 shrink-0;
+  }
+}
+
+.account-layout {
+  & h1 {
+    @apply text-[16px] mt-0 mb-6 leading-normal;
+  }
+}
+
+.profile-fields {
+  @apply grid grid-cols-2 gap-x-6 gap-y-5;
+  & > label {
+    @apply m-0;
+  }
+  & > button,
+  & > p {
+    @apply col-span-full justify-self-start;
+  }
+  & > p:empty {
+    @apply hidden;
+  }
+}
+
+.profile-password {
+  @apply w-[calc((100%_-_24px)/2)] mt-6;
+  & h2 {
+    @apply text-[14px] font-normal;
+  }
+}
+
+.avatar-actions {
+  @apply flex items-center gap-4;
+}
+
+.profile-avatar {
+  @apply relative pl-16;
+  & .avatar {
+    @apply absolute left-0 top-6 w-12 h-12;
+  }
+}
+
+.avatar-placeholder {
+  @apply absolute left-0 top-6 flex items-center justify-center w-12 h-12 rounded-full bg-panel text-primary;
+}
+
+.profile-avatar {
+  & > label {
+    @apply mb-2;
+  }
+}
+
+.account-text-button {
+  @apply border-0 p-0 font-normal bg-transparent;
+}
+
+.wallet-heading {
+  @apply flex items-start justify-between gap-4;
+  & h1,
+  & h2 {
+    @apply text-[16px] mb-0;
+  }
+  & + p {
+    @apply mt-1 mb-8;
+  }
+}
+
+.secondary-wallet {
+  @apply mt-8;
+}
+
+.account-layout {
+  & input,
+  & select {
+    @apply border-border-muted rounded-none;
+  }
+}
+
+@media (max-width: 900px) {
+  .account-layout {
+    @apply grid-cols-1;
+  }
+
+  .account-menu {
+    @apply flex flex-wrap gap-3 items-center;
+    & button,
+    & > a {
+      @apply w-auto m-0;
+    }
+    & p {
+      @apply hidden;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile-fields {
+    @apply grid-cols-1;
+  }
+
+  .profile-password {
+    @apply w-full;
+  }
+}

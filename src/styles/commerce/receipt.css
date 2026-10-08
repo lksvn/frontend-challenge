@@ -1,0 +1,63 @@
+/* receipt: estilos do bloco e variações responsivas. */
+
+.receipt-modal {
+  @apply w-[min(584px,_calc(100%_-_32px))] bg-panel rounded-none border-b-[10px] border-solid border-b-primary p-10;
+  & > h2 {
+    @apply text-[16px];
+  }
+}
+
+.receipt-icon {
+  @apply block w-[66px] h-20 mt-0 mx-auto mb-4 bg-current text-primary mask-[url(/assets/thank-you.svg)] mask-center mask-contain mask-no-repeat;
+}
+
+.receipt-modal > h2:first-of-type,
+.receipt-description {
+  @apply text-center;
+}
+
+.receipt-meta {
+  @apply grid grid-cols-4 gap-4 py-5 px-0 my-6 mx-0 border-y border-solid border-y-primary text-copy text-[12px];
+  & dd {
+    @apply m-0 wrap-anywhere;
+  }
+}
+
+.receipt-items {
+  @apply w-full border-collapse text-[14px];
+  & th {
+    @apply text-left border-b border-solid border-b-border pb-3;
+  }
+  & td {
+    @apply py-3 px-0;
+  }
+  & td:first-child > div {
+    @apply flex items-center gap-3;
+  }
+  & img {
+    @apply rounded-lg;
+  }
+  & td:last-child {
+    @apply text-[#eda35c] font-bold;
+  }
+  & th:last-child,
+  & td:last-child {
+    @apply text-right;
+  }
+}
+
+.receipt-modal {
+  & .summary {
+    @apply text-[14px];
+  }
+}
+
+.receipt-description {
+  @apply text-copy text-[13px] my-6 mx-0;
+}
+
+.receipt-modal {
+  & > button:last-child {
+    @apply block mx-auto;
+  }
+}

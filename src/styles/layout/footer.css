@@ -1,0 +1,99 @@
+/* Rodapé: benefícios, contato, links e copyright. */
+.site-footer {
+  @apply max-w-300 mx-auto mt-24 p-0 text-left text-foreground text-[14px] leading-[22px];
+}
+.footer-features {
+  @apply grid grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.4fr)] gap-4 p-8 bg-card;
+  & > article {
+    @apply min-w-0 pl-4 pr-4 border-r border-brand;
+  }
+  & > article:last-child {
+    @apply pl-0 pr-0 border-0;
+  }
+  & h2 {
+    @apply text-foreground font-bold text-[18px] leading-[18px] mt-3 mb-3;
+  }
+  & > article:last-child h2 {
+    @apply mt-0;
+  }
+  & p {
+    @apply text-copy text-[14px] leading-[22px] m-0;
+  }
+  & > article:last-child p {
+    @apply text-[13px] mt-3;
+  }
+}
+.feature-symbol {
+  @apply grid place-items-center size-[74px] rounded-full bg-brand text-background text-[24px] font-bold;
+}
+.newsletter-input {
+  @apply flex items-stretch gap-0;
+  & label {
+    @apply flex-1 min-w-0 m-0;
+  }
+  & input {
+    @apply w-full h-10 px-3 py-2 bg-[#38220F] border-0 rounded-l-[6px] rounded-r-none text-copy text-[14px];
+  }
+  & input::placeholder {
+    @apply text-[#B39463] opacity-100;
+  }
+  & .button {
+    @apply h-10 px-4 py-2 rounded-l-none rounded-r-[6px] bg-brand text-background text-[18px] font-bold disabled:opacity-100;
+  }
+}
+.footer-contact {
+  @apply grid grid-cols-4 items-center gap-6 p-8 py-6 bg-[#38220F];
+  & > * {
+    @apply min-w-0 wrap-anywhere;
+  }
+  & strong {
+    @apply text-[14px] tracking-[0.1em];
+  }
+}
+.footer-links {
+  @apply grid grid-cols-4 gap-6 p-8 bg-card;
+  & > div {
+    @apply min-w-0;
+  }
+  & h2 {
+    @apply text-[18px] leading-[22px] font-bold mt-0 mb-3;
+  }
+  & a {
+    @apply block text-[14px] leading-[20px] mb-[10px];
+  }
+}
+.footer-socials {
+  @apply flex flex-wrap gap-2 mb-7;
+  & a {
+    @apply flex items-center justify-center size-8 m-0 border border-brand rounded-[4px] text-brand;
+  }
+  & .asset-icon {
+    @apply size-4;
+  }
+}
+.wallet-badge {
+  @apply inline-block text-brand text-[9px] leading-4 font-bold m-0 py-1 px-2 border border-field-border rounded-[6px] bg-[#38220F];
+}
+.copyright {
+  @apply m-0 py-3 px-4 text-center text-foreground text-[14px] leading-5 font-bold;
+}
+@media (max-width: 900px) {
+  .footer-features,
+  .footer-links,
+  .footer-contact {
+    @apply grid-cols-2;
+  }
+  .footer-features > article:nth-child(2) {
+    @apply border-r-0;
+  }
+}
+@media (max-width: 600px) {
+  .footer-features,
+  .footer-links,
+  .footer-contact {
+    @apply grid-cols-1 p-6;
+  }
+  .footer-features > article {
+    @apply px-0 border-r-0;
+  }
+}

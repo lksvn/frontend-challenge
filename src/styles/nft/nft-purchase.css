@@ -1,0 +1,56 @@
+/* nft-purchase: estilos do bloco e variações responsivas. */
+
+.edition-options {
+  @apply border-0 p-0 my-4;
+  & legend {
+    @apply font-semibold mb-2;
+  }
+  & > div {
+    @apply flex flex-wrap gap-2;
+  }
+  & label {
+    @apply relative block m-0 cursor-pointer;
+  }
+  & input {
+    @apply w-px h-px p-0;
+  }
+  & span {
+    @apply block rounded-full border border-border px-2 py-1 text-[12px] text-copy;
+  }
+  & input:checked + span {
+    @apply border-primary text-primary;
+  }
+  & input:focus-visible + span {
+    @apply outline-2 outline-primary outline-offset-2;
+  }
+  & input:disabled + span {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+.nft-purchase-actions {
+  @apply flex flex-wrap justify-between items-start gap-4;
+}
+
+.quantity-control {
+  @apply flex items-center gap-2;
+}
+
+.purchase-buttons {
+  @apply flex items-start gap-2 text-[14px];
+}
+
+.quantity-control {
+  & button {
+    @apply w-[34px] h-[50px] p-0 rounded-full;
+  }
+  & output {
+    @apply min-w-5 text-center;
+  }
+}
+
+.purchase-buttons {
+  & > div > .text-copy {
+    @apply text-[12px];
+  }
+}

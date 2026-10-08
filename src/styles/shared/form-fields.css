@@ -1,0 +1,31 @@
+/* form-fields: estilos do bloco e variações responsivas. */
+
+.ens-field {
+  @apply flex gap-2 min-w-0;
+  & > span {
+    @apply flex items-center border border-border-muted px-3 text-[13px];
+  }
+  & > input:not([type='hidden']) {
+    @apply flex-1 min-w-0;
+  }
+}
+
+.password-group {
+  @apply mb-5;
+  & > label {
+    @apply mb-2;
+  }
+}
+
+.password-field {
+  @apply relative;
+  & input {
+    @apply pr-10;
+  }
+  & button {
+    @apply absolute right-3 top-1/2 -translate-y-1/2 flex text-primary cursor-pointer;
+  }
+  & .asset-icon {
+    @apply w-4 h-4;
+  }
+}

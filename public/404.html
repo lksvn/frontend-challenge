@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kurio — Abrindo página</title>
+  </head>
+  <body>
+    <p>Abrindo a página…</p>
+    <script>
+      const basePath = '/frontend-challenge/'
+      const route = location.pathname + location.search + location.hash
+      const parameters = new URLSearchParams({ __route: route })
+      location.replace(basePath + '?' + parameters)
+    </script>
+  </body>
+</html>
