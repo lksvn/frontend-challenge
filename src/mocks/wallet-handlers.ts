@@ -87,7 +87,12 @@ export const walletHandlers = [
     if (!account) return unauthorized()
     if (!(store().wallets[account.id] ?? []).some((wallet) => wallet.id === params.id))
       return error('Carteira não encontrada.', 404, 'NOT_FOUND')
-    const { action } = await body(request)
+    const { action, provider } = await body(request)
+    if (
+      provider !== undefined &&
+      !['WalletConnect', 'MetaMask', 'Coinbase Wallet'].includes(String(provider))
+    )
+      return error('Método de conexão inválido.')
     if (!['connect', 'decline', 'disconnect'].includes(String(action)))
       return error('Ação de conexão inválida.')
     return HttpResponse.json({

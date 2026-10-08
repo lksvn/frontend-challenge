@@ -55,12 +55,18 @@ export function CartPage() {
           <span className="asset-icon mobile-home-icon" aria-hidden="true" />
         </Link>
       </div>
-      <nav className="detail-breadcrumb" aria-label="Navegação estrutural">
+      <nav className="breadcrumb" aria-label="Navegação estrutural">
         <Link to="/" search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}>
           Início
         </Link>
         <span aria-hidden="true">/</span>
-        <a href={`${import.meta.env.BASE_URL}#catalogo`}>Mercado</a>
+        <Link
+          to="/"
+          hash="catalogo"
+          search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
+        >
+          Mercado
+        </Link>
         <span aria-hidden="true">/</span>
         <span>Carrinho</span>
       </nav>
@@ -73,9 +79,25 @@ export function CartPage() {
       {cartQuery.isPending ? (
         <CartSkeleton />
       ) : !cartQuery.data ? (
-        <p role="alert">{getErrorMessage(cartQuery.error)}</p>
+        <div role="alert">
+          <p>{getErrorMessage(cartQuery.error)}</p>
+          <Button onClick={() => void cartQuery.refetch()} disabled={cartQuery.isFetching}>
+            Tentar novamente
+          </Button>
+        </div>
       ) : !cartQuery.data.length ? (
-        <p>Seu carrinho está vazio.</p>
+        <div className="cart-empty">
+          <p role="status">Seu carrinho está vazio.</p>
+          <Button asChild>
+            <Link
+              to="/"
+              hash="catalogo"
+              search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
+            >
+              Explorar NFTs
+            </Link>
+          </Button>
+        </div>
       ) : (
         <div className="cart-layout">
           <CartItems items={cartQuery.data} editable />
@@ -85,7 +107,12 @@ export function CartPage() {
             {quoteQuery.isPending ? (
               <Summary cart />
             ) : quoteQuery.isError ? (
-              <p role="alert">{getErrorMessage(quoteQuery.error)}</p>
+              <div role="alert">
+                <p>{getErrorMessage(quoteQuery.error)}</p>
+                <Button onClick={() => void quoteQuery.refetch()} disabled={quoteQuery.isFetching}>
+                  Tentar novamente
+                </Button>
+              </div>
             ) : (
               <Summary quote={quoteQuery.data} cart />
             )}

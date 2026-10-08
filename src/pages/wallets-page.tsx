@@ -73,7 +73,12 @@ function Wallets() {
         {walletsQuery.isPending ? (
           <p>Carregando…</p>
         ) : walletsQuery.isError ? (
-          <p role="alert">{getErrorMessage(walletsQuery.error)}</p>
+          <div role="alert">
+            <p>{getErrorMessage(walletsQuery.error)}</p>
+            <Button onClick={() => void walletsQuery.refetch()} disabled={walletsQuery.isFetching}>
+              Tentar novamente
+            </Button>
+          </div>
         ) : null}
         <form
           className="wallet-fields"

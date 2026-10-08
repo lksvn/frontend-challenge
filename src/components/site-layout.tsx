@@ -93,24 +93,33 @@ export function SiteLayout() {
           >
             Início
           </Link>
-          <a
-            href={`${import.meta.env.BASE_URL}#catalogo`}
+          <Link
+            to="/"
+            hash="catalogo"
+            activeOptions={{ exact: true, includeHash: true, includeSearch: false }}
+            search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
             aria-current={activeItem === 'catalogo' ? 'location' : undefined}
           >
             Mercado
-          </a>
-          <a
-            href={`${import.meta.env.BASE_URL}#criadores`}
+          </Link>
+          <Link
+            to="/"
+            hash="criadores"
+            activeOptions={{ exact: true, includeHash: true, includeSearch: false }}
+            search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
             aria-current={activeItem === 'criadores' ? 'location' : undefined}
           >
             Criadores
-          </a>
-          <a
-            href={`${import.meta.env.BASE_URL}#aprenda`}
+          </Link>
+          <Link
+            to="/"
+            hash="aprenda"
+            activeOptions={{ exact: true, includeHash: true, includeSearch: false }}
+            search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
             aria-current={activeItem === 'aprenda' ? 'location' : undefined}
           >
             Aprenda
-          </a>
+          </Link>
         </nav>
         <div className="header-actions">
           <div className="mobile-nav-start">
@@ -118,6 +127,7 @@ export function SiteLayout() {
               to="/"
               search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
               aria-label="Início"
+              activeOptions={{ exact: true, includeHash: true, includeSearch: false }}
               aria-current={activeItem === 'home' ? 'page' : undefined}
             >
               <span className="asset-icon mobile-home-icon" aria-hidden="true" />
@@ -161,7 +171,6 @@ export function SiteLayout() {
         }
       >
         <Outlet />
-        {/* <RealtimeDemo /> */}
       </main>
       <SiteFooter />
       <AuthNavigation />

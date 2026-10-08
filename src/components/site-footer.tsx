@@ -88,9 +88,14 @@ export function SiteFooter() {
         <div>
           <h2>Coleções</h2>
           {catalogQuery.data?.filters.categories.map(({ name }) => (
-            <a key={name} href={`${import.meta.env.BASE_URL}?category=${encodeURIComponent(name)}`}>
+            <Link
+              key={name}
+              to="/"
+              hash="catalogo"
+              search={{ q: '', category: name, network: '', sort: 'recent', page: 1 }}
+            >
               {name}
-            </a>
+            </Link>
           ))}
         </div>
         <div>

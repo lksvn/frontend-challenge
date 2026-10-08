@@ -4,6 +4,7 @@
 @import './styles/layout/footer.css' layer(components);
 @import './styles/layout/header.css' layer(components);
 @import './styles/shared/icons.css' layer(components);
+@import './styles/shared/breadcrumb.css' layer(components);
 @import './styles/nft/nft-detail.css' layer(components);
 @import './styles/home/home-content.css' layer(components);
 @import './styles/home/hero.css' layer(components);

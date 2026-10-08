@@ -33,7 +33,15 @@ function Profile() {
     mutationFn: (data: Record<string, FormDataEntryValue>) => api.post('/profile/password', data),
   })
   if (profileQuery.isPending) return <p role="status">Carregando perfil…</p>
-  if (!profileQuery.data) return <p role="alert">{getErrorMessage(profileQuery.error)}</p>
+  if (!profileQuery.data)
+    return (
+      <div role="alert">
+        <p>{getErrorMessage(profileQuery.error)}</p>
+        <Button onClick={() => void profileQuery.refetch()} disabled={profileQuery.isFetching}>
+          Tentar novamente
+        </Button>
+      </div>
+    )
   return (
     <section className="account-layout profile-page">
       <div className="mobile-page-heading">

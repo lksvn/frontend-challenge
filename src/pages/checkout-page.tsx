@@ -51,11 +51,14 @@ function Checkout() {
   })
   const walletId = selectedWalletId ?? walletsQuery.data?.find((wallet) => wallet.primary)?.id ?? ''
   const selectedWallet = walletsQuery.data?.find((wallet) => wallet.id === walletId)
+  const [selectedProvider, setProvider] = useState<string | null>(null)
+  const provider = selectedProvider ?? selectedWallet?.provider ?? 'WalletConnect'
   const [connected, setConnected] = useState(false)
   const [connectionMessage, setConnectionMessage] = useState('')
   const walletConnection = useMutation({
     mutationFn: async (action: 'connect' | 'decline' | 'disconnect') =>
-      (await api.post<WalletConnection>(`/wallets/${walletId}/connection`, { action })).data,
+      (await api.post<WalletConnection>(`/wallets/${walletId}/connection`, { action, provider }))
+        .data,
     onMutate: () => setConnected(false),
     onSuccess: (result) => {
       setConnected(result.connected)
@@ -129,12 +132,18 @@ function Checkout() {
         </Button>
         <h1>Pagamento com carteira</h1>
       </div>
-      <nav className="detail-breadcrumb" aria-label="Navegação estrutural">
+      <nav className="breadcrumb" aria-label="Navegação estrutural">
         <Link to="/" search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}>
           Início
         </Link>
         <span aria-hidden="true">/</span>
-        <a href={`${import.meta.env.BASE_URL}#catalogo`}>Mercado</a>
+        <Link
+          to="/"
+          hash="catalogo"
+          search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
+        >
+          Mercado
+        </Link>
         <span aria-hidden="true">/</span>
         <span>Pagamento</span>
       </nav>
@@ -193,24 +202,26 @@ function Checkout() {
           <aside className="payment-summary">
             <h2>Seus NFTs</h2>
             {cartQuery.data && <PaymentItems items={cartQuery.data} />}
-            {couponOpen ? (
-              <CouponField
-                coupon={coupon}
-                onApply={(value) => {
-                  applyCoupon(value)
-                  if (!value) setCouponOpen(false)
-                }}
-                pending={quoteQuery.isFetching}
-              />
-            ) : (
-              <button
-                type="button"
-                className="payment-coupon-link"
-                onClick={() => setCouponOpen(true)}
-              >
-                Tem um código promocional? Aplique aqui
-              </button>
-            )}
+            <div className="payment-coupon">
+              {couponOpen ? (
+                <CouponField
+                  coupon={coupon}
+                  onApply={(value) => {
+                    applyCoupon(value)
+                    if (!value) setCouponOpen(false)
+                  }}
+                  pending={quoteQuery.isFetching}
+                />
+              ) : (
+                <button
+                  type="button"
+                  className="payment-coupon-link"
+                  onClick={() => setCouponOpen(true)}
+                >
+                  Tem um código promocional? Aplique aqui
+                </button>
+              )}
+            </div>
             {cartQuery.isError && (
               <div>
                 <p role="alert">{getErrorMessage(cartQuery.error)}</p>
@@ -250,6 +261,7 @@ function Checkout() {
                     disabled={walletConnection.isPending}
                     onChange={() => {
                       setWalletId(wallet.id)
+                      setProvider(null)
                       setConnected(false)
                     }}
                   />
@@ -277,12 +289,33 @@ function Checkout() {
               Cadastrar ou editar carteira
             </Button>
             <div className="payment-connection">
-              <h2 className="payment-mobile-label">Carteira e rede</h2>
-              {selectedWallet && (
-                <p className="payment-mobile-label payment-provider">
-                  {selectedWallet.provider} · {selectedWallet.network}
-                </p>
-              )}
+              <fieldset className="payment-methods payment-mobile-label">
+                <legend>Carteira e rede</legend>
+                {['WalletConnect', 'MetaMask', 'Coinbase Wallet'].map((method) => (
+                  <label key={method}>
+                    <span className="payment-method-icon" aria-hidden="true">
+                      {method === 'Coinbase Wallet' ? (
+                        <span className="asset-icon wallet-icon" />
+                      ) : (
+                        method[0]
+                      )}
+                    </span>
+                    <span>{method}</span>
+                    <input
+                      type="radio"
+                      name="connectionProvider"
+                      value={method}
+                      checked={provider === method}
+                      disabled={!walletId || walletConnection.isPending}
+                      onChange={() => {
+                        setProvider(method)
+                        setConnected(false)
+                        setConnectionMessage('')
+                      }}
+                    />
+                  </label>
+                ))}
+              </fieldset>
               <p>Conexão simulada: {connected ? 'conectada' : 'desconectada'}</p>
               <div className="actions">
                 <Button

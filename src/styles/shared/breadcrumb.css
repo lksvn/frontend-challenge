@@ -1,0 +1,9 @@
+.breadcrumb {
+  @apply flex flex-wrap gap-2 mb-3 font-bold text-[15px] leading-4 text-foreground;
+}
+
+@media (max-width: 600px) {
+  .breadcrumb {
+    @apply hidden;
+  }
+}

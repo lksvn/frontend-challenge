@@ -48,7 +48,14 @@ function Favorites() {
       <div>
         <h1 className="favorites-heading">Favoritos</h1>
         {favorites.isPending && <p role="status">Carregando favoritos…</p>}
-        {favorites.isError && <p role="alert">{getErrorMessage(favorites.error)}</p>}
+        {favorites.isError && (
+          <div role="alert">
+            <p>{getErrorMessage(favorites.error)}</p>
+            <Button onClick={() => void favorites.refetch()} disabled={favorites.isFetching}>
+              Tentar novamente
+            </Button>
+          </div>
+        )}
         {favorites.data?.length === 0 && (
           <p className="favorites-empty" role="status">
             Você ainda não favoritou nenhum NFT.
@@ -75,9 +82,12 @@ function Favorites() {
               )
             if (!nft)
               return (
-                <p key={favorites.data![index]} role={query.isError ? 'alert' : 'status'}>
-                  {query.isError ? getErrorMessage(query.error) : 'Carregando NFT…'}
-                </p>
+                <div key={favorites.data![index]} role="alert">
+                  <p>{getErrorMessage(query.error)}</p>
+                  <Button onClick={() => void query.refetch()} disabled={query.isFetching}>
+                    Tentar novamente
+                  </Button>
+                </div>
               )
             return (
               <article className="favorite-row" key={nft.id}>

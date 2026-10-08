@@ -153,7 +153,24 @@ export function CatalogPage() {
                 {catalogQuery.isFetching ? ' · Carregando' : ''}
               </p>
               {catalogQuery.data.items.length === 0 ? (
-                <p>Nenhum NFT encontrado.</p>
+                <div>
+                  <p role="status">Nenhum NFT encontrado.</p>
+                  <Button
+                    variant="outline"
+                    onClick={() =>
+                      void updateSearch({
+                        q: '',
+                        category: '',
+                        network: '',
+                        min: '',
+                        max: '',
+                        view: 'all',
+                      })
+                    }
+                  >
+                    Limpar filtros
+                  </Button>
+                </div>
               ) : (
                 <div className="nft-grid">
                   {catalogQuery.data.items.map((nft) => (

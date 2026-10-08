@@ -75,12 +75,18 @@ export function NftDetailPage({ id }: { id: string }) {
           <Button onClick={() => void nftQuery.refetch()}>Tentar novamente</Button>
         </div>
       )}
-      <nav aria-label="Navegação estrutural" className="detail-breadcrumb">
+      <nav aria-label="Navegação estrutural" className="breadcrumb">
         <Link to="/" search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}>
           Início
         </Link>
         <span aria-hidden="true"> / </span>
-        <a href={`${import.meta.env.BASE_URL}#catalogo`}>Mercado</a>
+        <Link
+          to="/"
+          hash="catalogo"
+          search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}
+        >
+          Mercado
+        </Link>
       </nav>
       <section className="detail-layout nft-detail-layout">
         <button

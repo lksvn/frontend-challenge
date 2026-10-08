@@ -61,3 +61,27 @@
     @apply block mx-auto;
   }
 }
+
+@media (max-width: 600px) {
+  .receipt-modal {
+    @apply p-5;
+    & .receipt-meta {
+      @apply grid-cols-2 gap-4 my-4;
+    }
+    & .receipt-items {
+      @apply text-xs;
+      & img {
+        @apply size-12 shrink-0;
+      }
+      & td:first-child > div {
+        @apply gap-2 min-w-0;
+      }
+      & strong {
+        @apply wrap-anywhere;
+      }
+      & td:last-child {
+        @apply whitespace-nowrap pl-2;
+      }
+    }
+  }
+}

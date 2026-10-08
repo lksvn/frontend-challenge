@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useRef, useState } from 'react'
 import { Button } from './ui/button'
 
@@ -75,12 +76,12 @@ export function HeroCarousel() {
           <span className="mobile-headline">{slide.mobileDescription}</span>
         </p>
         <Button asChild>
-          <a href="#catalogo">
+          <Link from="/" to="/" hash="catalogo" search={(previous) => previous}>
             EXPLORAR
             <span className="mobile-headline" aria-hidden="true">
               <span className="asset-icon arrow-right-icon" />
             </span>
-          </a>
+          </Link>
         </Button>
       </div>
       <div className="hero-art">

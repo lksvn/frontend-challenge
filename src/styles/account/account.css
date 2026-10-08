@@ -254,9 +254,6 @@
 
 .wallets-page .wallet-fields {
   @apply items-end gap-x-6 gap-y-7;
-  & > label {
-    @apply gap-0;
-  }
   & > p:empty {
     @apply hidden;
   }

@@ -87,3 +87,7 @@
 .eye-show-icon {
   @apply mask-[url(/assets/eye-show.svg)];
 }
+
+.wallet-icon {
+  @apply mask-[url(/assets/wallet.svg)];
+}

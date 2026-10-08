@@ -86,10 +86,6 @@
   }
 }
 
-.detail-breadcrumb {
-  @apply flex gap-2 font-bold text-[15px] leading-4 text-foreground;
-}
-
 .detail-price-rating {
   @apply flex flex-wrap items-center justify-between gap-4 border-b border-border-muted;
 }
@@ -155,10 +151,6 @@
 @media (max-width: 600px) {
   .nft-detail-layout {
     @apply relative gap-0 mt-4 mb-8 rounded-4xl bg-card;
-  }
-
-  .detail-breadcrumb {
-    @apply text-[12px];
   }
 
   .nft-detail-layout .nft-gallery {
@@ -286,9 +278,6 @@
   }
   main.mobile-detail-view {
     @apply pt-0 px-0 pb-45;
-  }
-  .mobile-detail-view .detail-breadcrumb {
-    @apply hidden;
   }
   .nft-detail-layout {
     @apply block m-0;

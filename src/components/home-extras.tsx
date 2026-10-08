@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { Button } from './ui/button'
 
 export function HomeExtras() {
@@ -16,10 +17,14 @@ export function HomeExtras() {
             <h2>Lançamentos gênesis de edição limitada</h2>
             <p>Colecione edições escassas diretamente dos criadores antes da revelação pública.</p>
             <Button asChild>
-              <a href={`${import.meta.env.BASE_URL}?category=Arte%20digital#catalogo`}>
+              <Link
+                to="/"
+                hash="catalogo"
+                search={{ q: '', category: 'Arte digital', network: '', sort: 'recent', page: 1 }}
+              >
                 Explorar
                 <span className="asset-icon arrow-right-icon" aria-hidden="true" />
-              </a>
+              </Link>
             </Button>
           </div>
         </article>
@@ -38,10 +43,14 @@ export function HomeExtras() {
               on-chain.
             </p>
             <Button asChild>
-              <a href={`${import.meta.env.BASE_URL}?category=Arte%203D#catalogo`}>
+              <Link
+                to="/"
+                hash="catalogo"
+                search={{ q: '', category: 'Arte 3D', network: '', sort: 'recent', page: 1 }}
+              >
                 Explorar
                 <span className="asset-icon arrow-right-icon" aria-hidden="true" />
-              </a>
+              </Link>
             </Button>
           </div>
         </article>

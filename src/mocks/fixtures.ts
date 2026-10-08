@@ -41,7 +41,7 @@ export function promotionalPrice(originalPrice: string) {
 }
 
 export function createNfts(random = Math.random): Nft[] {
-  return Array.from({ length: 86 }, (_, index) => {
+  return Array.from({ length: 62 }, (_, index) => {
     const selectedEdition = Math.floor(random() * editionOptions.length)
     const capacity = editionOptions[selectedEdition].capacity
     const available = Math.floor(random() * (capacity + 1))

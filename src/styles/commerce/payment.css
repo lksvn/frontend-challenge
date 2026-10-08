@@ -121,9 +121,6 @@
   .payment-page {
     @apply m-0;
   }
-  .payment-page .detail-breadcrumb {
-    @apply hidden;
-  }
 }
 
 .payment-mobile-label {
@@ -140,19 +137,26 @@
   }
   .payment-wallets {
     & legend {
-      @apply text-left text-[16px];
+      @apply text-left text-lg leading-6;
     }
     & label {
-      @apply min-h-23 gap-4 px-5 py-4 rounded-2xl bg-card border-0;
+      @apply min-h-27 gap-5 px-5 py-4 mb-6 rounded-2xl bg-card border-0 shadow-[0_6px_20px_#0A060473];
     }
     & input {
-      @apply shrink-0;
+      @apply appearance-none size-4.5 shrink-0 rounded-full border border-field-border p-0;
+      &:checked {
+        @apply border-brand;
+        background: radial-gradient(circle, #d28a4c 0 4px, transparent 5px);
+      }
+      &:focus-visible {
+        @apply outline-2 outline-brand outline-offset-4;
+      }
     }
     & .payment-wallet-card {
-      @apply grid gap-1 min-w-0 text-[14px] text-copy;
+      @apply grid gap-1 min-w-0 text-base leading-6 text-copy;
     }
     & strong {
-      @apply text-[16px] text-foreground;
+      @apply text-lg leading-6 text-foreground;
     }
     & span {
       @apply break-words;
@@ -175,8 +179,7 @@
     @apply order-0 flex flex-col gap-4;
   }
   .payment-summary > h2,
-  .payment-summary > .payment-items,
-  .payment-summary > .payment-coupon-link {
+  .payment-summary > .payment-items {
     @apply hidden;
   }
   .payment-wallets {
@@ -207,8 +210,11 @@
       @apply hidden;
     }
   }
+  .payment-coupon {
+    @apply hidden;
+  }
   .payment-summary > .summary {
-    @apply -order-1 my-0;
+    @apply order-0 my-0;
     & > div:not(:last-child) {
       @apply hidden;
     }
@@ -223,13 +229,41 @@
   .collector-panel {
     @apply order-1;
   }
-  .collector-toggle {
+  .collector-panel[data-open='true'] .collector-toggle {
     @apply block p-0 bg-transparent text-brand font-bold;
   }
-  .collector-panel[data-open='false'] .collector-panel-content {
+  .collector-panel[data-open='false'] {
     @apply hidden;
   }
   .collector-panel-content {
     @apply mt-4;
+  }
+}
+
+@media (max-width: 600px) {
+  .payment-methods {
+    @apply border-0 p-0 m-0;
+    & legend {
+      @apply text-lg leading-6 font-bold mb-4;
+    }
+    & label {
+      @apply flex items-center gap-3 min-h-19 px-4 py-4 mb-5 rounded-2xl bg-card shadow-[0_6px_20px_#0A060473];
+    }
+    & input {
+      @apply appearance-none size-4.5 shrink-0 m-0 ml-auto p-0 rounded-full border border-field-border;
+      &:checked {
+        @apply border-brand;
+        background: radial-gradient(circle, #d28a4c 0 4px, transparent 5px);
+      }
+      &:focus-visible {
+        @apply outline-2 outline-brand outline-offset-4;
+      }
+    }
+    & .payment-method-icon {
+      @apply flex items-center justify-center size-12 shrink-0 rounded-full border border-field-border bg-[#2F1D15] text-brand font-bold;
+      & .asset-icon {
+        @apply size-5;
+      }
+    }
   }
 }

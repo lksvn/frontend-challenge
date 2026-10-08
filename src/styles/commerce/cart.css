@@ -167,7 +167,6 @@
   .cart-page {
     @apply m-0;
   }
-  .cart-page .detail-breadcrumb,
   .cart-table-heading,
   .cart-unit-price,
   .cart-token,
@@ -244,7 +243,7 @@
       @apply text-[16px];
     }
   }
-  .cart-coupon {
+  .cart-summary .cart-coupon {
     & label {
       @apply sr-only;
     }
@@ -294,5 +293,12 @@
     & .asset-icon {
       @apply size-4;
     }
+  }
+}
+
+.cart-empty {
+  @apply p-6 rounded-lg bg-card;
+  & p {
+    @apply mt-0 text-copy;
   }
 }
