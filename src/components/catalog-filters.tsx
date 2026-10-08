@@ -25,7 +25,7 @@ export function CatalogFilters({
     setRange([Number(search.min || 0.02), Number(search.max || 12.3)])
   }, [search.min, search.max])
   return (
-    <aside id="catalog-filters" className="catalog-sidebar" data-mobile-open={mobileOpen}>
+    <aside className="catalog-sidebar" data-mobile-open={mobileOpen}>
       <div className="filters">
         <fieldset className="filter-group">
           <legend>Coleções</legend>

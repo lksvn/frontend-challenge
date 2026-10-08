@@ -16,9 +16,12 @@ export function AccountMenu() {
         <span className="asset-icon location-icon" aria-hidden="true" />
         Carteiras
       </Link>
+      <Link to="/favorites" activeProps={{ 'aria-current': 'page' }}>
+        <span className="asset-icon heart-icon" aria-hidden="true" />
+        Lista de interesse
+      </Link>
       {[
         { label: 'Atividade', icon: 'cart-icon' },
-        { label: 'Lista de interesse', icon: 'heart-icon' },
         { label: 'Ofertas', icon: 'activity-icon' },
         { label: 'Arquivos baixados', icon: 'download-icon' },
         { label: 'Suporte', icon: 'danger-icon' },

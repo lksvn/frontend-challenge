@@ -126,3 +126,29 @@
     @apply px-6 pt-10;
   }
 }
+
+.mobile-page-heading {
+  @apply hidden;
+}
+
+.mobile-page-heading h1 {
+  @apply sr-only;
+}
+.mobile-page-heading > button {
+  @apply hidden;
+}
+
+@media (max-width: 600px) {
+  .mobile-page-heading {
+    @apply fixed top-0 left-0 right-0 z-10 flex items-center justify-center h-20 bg-background;
+    & h1 {
+      @apply not-sr-only m-0 text-[20px] leading-7;
+    }
+    & > button {
+      @apply absolute left-7 flex items-center justify-center size-9 p-0 rounded-full border border-field-border bg-card text-copy;
+      & .asset-icon {
+        @apply size-4 rotate-180;
+      }
+    }
+  }
+}

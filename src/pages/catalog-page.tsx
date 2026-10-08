@@ -1,6 +1,7 @@
 import { useSearch, useNavigate } from '@tanstack/react-router'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useRef, useState } from 'react'
+import { Dialog } from 'radix-ui'
 import { api } from '../lib/api'
 import type { Catalog, CatalogSearch } from '../contracts'
 import { Button } from '../components/ui/button'
@@ -46,7 +47,7 @@ export function CatalogPage() {
   }
 
   return (
-    <>
+    <Dialog.Root open={filtersOpen} onOpenChange={setFiltersOpen}>
       <div className="mobile-catalog-search">
         <form
           role="search"
@@ -68,16 +69,11 @@ export function CatalogPage() {
             defaultValue={search.q}
           />
         </form>
-        <button
-          type="button"
-          className="mobile-filter-toggle"
-          aria-label="Filtros do catálogo"
-          aria-expanded={filtersOpen}
-          aria-controls="catalog-filters"
-          onClick={() => setFiltersOpen((open) => !open)}
-        >
-          <span className="asset-icon mobile-filter-icon" aria-hidden="true" />
-        </button>
+        <Dialog.Trigger asChild>
+          <button type="button" className="mobile-filter-toggle" aria-label="Filtros do catálogo">
+            <span className="asset-icon mobile-filter-icon" aria-hidden="true" />
+          </button>
+        </Dialog.Trigger>
       </div>
       <HeroCarousel />
       <section id="catalogo" className="catalog-layout" aria-label="Catálogo de NFTs">
@@ -86,7 +82,6 @@ export function CatalogPage() {
           search={search}
           updateSearch={updateSearch}
           featuredQuery={featuredQuery}
-          mobileOpen={filtersOpen}
         />
         <div ref={listStart}>
           <div className="catalog-toolbar">
@@ -190,6 +185,27 @@ export function CatalogPage() {
         </div>
       </section>
       <HomeExtras />
-    </>
+      <Dialog.Portal>
+        <Dialog.Overlay className="dialog-overlay" />
+        <Dialog.Content
+          className="dialog-content mobile-filters-panel"
+          aria-describedby={undefined}
+        >
+          <Dialog.Title className="sr-only">Filtros do catálogo</Dialog.Title>
+          <Dialog.Close className="modal-close" aria-label="Fechar filtros">
+            ×
+          </Dialog.Close>
+          <div className="mobile-filters-body">
+            <CatalogFilters
+              filters={catalogQuery.data?.filters}
+              search={search}
+              updateSearch={updateSearch}
+              featuredQuery={featuredQuery}
+              mobileOpen
+            />
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }

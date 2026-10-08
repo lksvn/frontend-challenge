@@ -1,6 +1,7 @@
 import { SuccessMessage } from '../components/success-message'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useRouter, useNavigate } from '@tanstack/react-router'
 import { api, getErrorMessage } from '../lib/api'
 import { Private } from '../account'
 import { useSession } from '../hooks/use-session'
@@ -10,6 +11,8 @@ import { EnsField } from '../components/ens-field'
 import type { Wallet } from '../contracts'
 
 function Wallets() {
+  const router = useRouter()
+  const navigate = useNavigate()
   const sessionQuery = useSession()
   const queryClient = useQueryClient()
   const [editing, setEditing] = useState<Wallet | null | undefined>()
@@ -29,7 +32,20 @@ function Wallets() {
   const secondaryWallet = walletsQuery.data?.find((wallet) => !wallet.primary)
   const selectedWallet = editing === undefined ? primaryWallet : editing
   return (
-    <section className="account-layout">
+    <section className="account-layout wallets-page">
+      <div className="mobile-page-heading">
+        <Button
+          variant="outline"
+          aria-label="Voltar"
+          onClick={() => {
+            if (router.history.canGoBack()) router.history.back()
+            else void navigate({ to: '/profile', replace: true })
+          }}
+        >
+          <span className="asset-icon pagination-chevron" aria-hidden="true" />
+        </Button>
+        <h1>Carteiras</h1>
+      </div>
       <AccountMenu />
       <div>
         <div className="wallet-heading">

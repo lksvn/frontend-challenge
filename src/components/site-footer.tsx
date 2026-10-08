@@ -64,13 +64,12 @@ export function SiteFooter() {
         <div>
           <h2>Meu perfil</h2>
           <Link to="/profile">Meu perfil</Link>
-          {['Minha coleção', 'Atividade', 'Estúdio do criador', 'Lista de interesse'].map(
-            (label) => (
-              <a key={label} role="link" aria-disabled="true" title="Página ainda indisponível">
-                {label}
-              </a>
-            ),
-          )}
+          <Link to="/favorites">Lista de interesse</Link>
+          {['Minha coleção', 'Atividade', 'Estúdio do criador'].map((label) => (
+            <a key={label} role="link" aria-disabled="true" title="Página ainda indisponível">
+              {label}
+            </a>
+          ))}
         </div>
         <div>
           <h2>Central de ajuda</h2>

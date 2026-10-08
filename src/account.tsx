@@ -11,7 +11,7 @@ export function AuthNavigation() {
   const blocker = useBlocker({
     shouldBlockFn: ({ next }) =>
       !session.data &&
-      (['/checkout', '/profile', '/wallets'].includes(next.pathname) ||
+      (['/checkout', '/profile', '/wallets', '/favorites'].includes(next.pathname) ||
         next.pathname.startsWith('/orders/')),
     withResolver: true,
     enableBeforeUnload: false,

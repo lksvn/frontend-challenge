@@ -28,7 +28,7 @@ export function CartPage() {
   })
   return (
     <section className="cart-page">
-      <div className="mobile-cart-heading">
+      <div className="mobile-cart-heading mobile-page-heading">
         <button
           type="button"
           aria-label="Voltar"

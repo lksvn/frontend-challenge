@@ -1,8 +1,9 @@
 import { CouponField } from '../components/coupon-field'
 import { useCoupon } from '../hooks/use-coupon'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link, useNavigate, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
+import { flushSync } from 'react-dom'
 import { Dialog } from 'radix-ui'
 import { AxiosError } from 'axios'
 import { api, getErrorMessage } from '../lib/api'
@@ -36,11 +37,13 @@ function readPurchaseAttempt(userId: string | undefined): PurchaseAttempt | null
 
 function Checkout() {
   const { coupon, applyCoupon } = useCoupon()
+  const [collectorOpen, setCollectorOpen] = useState(false)
   const [couponOpen, setCouponOpen] = useState(Boolean(coupon))
   const sessionQuery = useSession()
   const cartQuery = useCart()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const router = useRouter()
   const [selectedWalletId, setWalletId] = useState<string | null>(null)
   const walletsQuery = useQuery({
     queryKey: ['wallets', sessionQuery.data?.id],
@@ -113,7 +116,19 @@ function Checkout() {
   }
   return (
     <section className="payment-page">
-      <h1 className="sr-only">Pagamento</h1>
+      <div className="mobile-payment-heading mobile-page-heading">
+        <Button
+          variant="outline"
+          aria-label="Voltar ao carrinho"
+          onClick={() => {
+            if (router.history.canGoBack()) router.history.back()
+            else void navigate({ to: '/cart', replace: true })
+          }}
+        >
+          <span className="asset-icon pagination-chevron" aria-hidden="true" />
+        </Button>
+        <h1>Pagamento com carteira</h1>
+      </div>
       <nav className="detail-breadcrumb" aria-label="Navegação estrutural">
         <Link to="/" search={{ q: '', category: '', network: '', sort: 'recent', page: 1 }}>
           Início
@@ -146,17 +161,35 @@ function Checkout() {
             }
             confirmPurchase(collector)
           }}
+          onInvalidCapture={(event) => {
+            if (event.target instanceof HTMLElement && event.target.closest('.collector-panel')) {
+              flushSync(() => setCollectorOpen(true))
+            }
+          }}
           className="payment-layout"
         >
-          <CollectorFields
-            user={sessionQuery.data}
-            wallets={walletsQuery.data}
-            selectedWallet={selectedWallet}
-            onWalletChange={(id) => {
-              setWalletId(id)
-              setConnected(false)
-            }}
-          />
+          <section className="collector-panel" data-open={collectorOpen}>
+            <button
+              type="button"
+              className="collector-toggle"
+              aria-expanded={collectorOpen}
+              aria-controls="collector-panel-content"
+              onClick={() => setCollectorOpen(!collectorOpen)}
+            >
+              Dados do coletor
+            </button>
+            <div id="collector-panel-content" className="collector-panel-content">
+              <CollectorFields
+                user={sessionQuery.data}
+                wallets={walletsQuery.data}
+                selectedWallet={selectedWallet}
+                onWalletChange={(id) => {
+                  setWalletId(id)
+                  setConnected(false)
+                }}
+              />
+            </div>
+          </section>
           <aside className="payment-summary">
             <h2>Seus NFTs</h2>
             {cartQuery.data && <PaymentItems items={cartQuery.data} />}
@@ -194,7 +227,15 @@ function Checkout() {
               <p role="alert">{getErrorMessage(quoteQuery.error)}</p>
             )}
             <fieldset className="payment-wallets">
-              <legend>Carteira e rede</legend>
+              <legend>
+                <span className="payment-desktop-label">Carteira e rede</span>
+                <span className="payment-mobile-label payment-wallet-heading">
+                  Carteira conectada
+                  <button type="button" onClick={() => void navigate({ to: '/wallets' })}>
+                    Trocar carteira
+                  </button>
+                </span>
+              </legend>
               {walletsQuery.data?.map((wallet) => (
                 <label key={wallet.id}>
                   <input
@@ -209,64 +250,86 @@ function Checkout() {
                       setConnected(false)
                     }}
                   />
-                  {wallet.provider} · {wallet.network} · {wallet.address.slice(0, 8)}…
+                  <span className="payment-desktop-label">
+                    {wallet.provider} · {wallet.network} · {wallet.address.slice(0, 8)}…
+                  </span>
+                  <span className="payment-mobile-label payment-wallet-card">
+                    <strong>
+                      {wallet.nickname || (wallet.primary ? 'Principal' : 'Carteira')}
+                    </strong>
+                    <span>
+                      {wallet.ens || `${wallet.address.slice(0, 8)}…${wallet.address.slice(-4)}`}
+                    </span>
+                    <span>Rede {wallet.network}</span>
+                  </span>
                 </label>
               ))}
             </fieldset>
             <Button
+              className="payment-desktop-label"
               type="button"
               variant="outline"
               onClick={() => void navigate({ to: '/wallets' })}
             >
               Cadastrar ou editar carteira
             </Button>
-            <p>Conexão simulada: {connected ? 'conectada' : 'desconectada'}</p>
-            <div className="actions">
+            <div className="payment-connection">
+              <h2 className="payment-mobile-label">Carteira e rede</h2>
+              {selectedWallet && (
+                <p className="payment-mobile-label payment-provider">
+                  {selectedWallet.provider} · {selectedWallet.network}
+                </p>
+              )}
+              <p>Conexão simulada: {connected ? 'conectada' : 'desconectada'}</p>
+              <div className="actions">
+                <Button
+                  type="button"
+                  disabled={!walletId || walletConnection.isPending}
+                  onClick={() => walletConnection.mutate('connect')}
+                >
+                  Conectar
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!walletId || walletConnection.isPending}
+                  onClick={() => walletConnection.mutate('decline')}
+                >
+                  Simular recusa
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!walletId || walletConnection.isPending}
+                  onClick={() => walletConnection.mutate('disconnect')}
+                >
+                  Desconectar
+                </Button>
+              </div>
+              <p role="status">{connectionMessage}</p>
+              <p id="wallet-connection-error" role="alert">
+                {walletConnection.isError
+                  ? getErrorMessage(walletConnection.error)
+                  : walletsQuery.isError
+                    ? getErrorMessage(walletsQuery.error)
+                    : ''}
+              </p>
+            </div>
+            <div className="payment-actions">
               <Button
-                type="button"
-                disabled={!walletId || walletConnection.isPending}
-                onClick={() => walletConnection.mutate('connect')}
+                className="mobile-primary-action payment-confirm"
+                disabled={
+                  !connected ||
+                  createOrder.isPending ||
+                  quoteQuery.isFetching ||
+                  !cartQuery.data?.length ||
+                  cartQuery.isError ||
+                  quoteQuery.isError
+                }
               >
-                Conectar
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={!walletId || walletConnection.isPending}
-                onClick={() => walletConnection.mutate('decline')}
-              >
-                Simular recusa
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={!walletId || walletConnection.isPending}
-                onClick={() => walletConnection.mutate('disconnect')}
-              >
-                Desconectar
+                Confirmar compra
               </Button>
             </div>
-            <p role="status">{connectionMessage}</p>
-            <p id="wallet-connection-error" role="alert">
-              {walletConnection.isError
-                ? getErrorMessage(walletConnection.error)
-                : walletsQuery.isError
-                  ? getErrorMessage(walletsQuery.error)
-                  : ''}
-            </p>
-            <Button
-              className="mobile-primary-action"
-              disabled={
-                !connected ||
-                createOrder.isPending ||
-                quoteQuery.isFetching ||
-                !cartQuery.data?.length ||
-                cartQuery.isError ||
-                quoteQuery.isError
-              }
-            >
-              Confirmar compra
-            </Button>
           </aside>
         </form>
       )}

@@ -37,7 +37,17 @@ function Receipt({ id }: { id: string }) {
     <Dialog.Root
       open
       onOpenChange={(open) => {
-        if (!open) void navigate({ to: '/cart' })
+        if (open) return
+        if (order.status === 'confirmed') {
+          void navigate({
+            to: '/',
+            hash: 'catalogo',
+            search: { q: '', category: '', network: '', sort: 'recent', page: 1 },
+            replace: true,
+          })
+        } else {
+          void navigate({ to: '/cart', replace: true })
+        }
       }}
     >
       <Dialog.Portal>
@@ -105,8 +115,7 @@ function Receipt({ id }: { id: string }) {
               ? 'Aguardando confirmação. Você pode recarregar esta página para acompanhar o pedido.'
               : order.status === 'declined'
                 ? 'Seus itens permanecem no carrinho.'
-                : `Transação simulada confirmada${order.wallet ? ` na ${order.wallet.network}` : ''}. Os itens comprados foram removidos do carrinho.`}{' '}
-            Pedido: {order.id}
+                : `Transação confirmada na ${order.wallet?.network ?? 'Ethereum'}. A propriedade foi transferida para sua carteira conectada e registrada na rede.`}
           </Dialog.Description>
           {order.status === 'confirmed' && (
             <Button disabled title="Transações simuladas não são registradas no Etherscan">

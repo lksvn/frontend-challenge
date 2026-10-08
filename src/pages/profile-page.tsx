@@ -1,6 +1,7 @@
 import { SuccessMessage } from '../components/success-message'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useRouter, useNavigate } from '@tanstack/react-router'
 import { api, getErrorMessage } from '../lib/api'
 import { Private } from '../account'
 import { useSession } from '../hooks/use-session'
@@ -11,6 +12,8 @@ import { PasswordField } from '../components/password-field'
 import type { User } from '../contracts'
 
 function Profile() {
+  const router = useRouter()
+  const navigate = useNavigate()
   const sessionQuery = useSession()
   const queryClient = useQueryClient()
   const profileQuery = useQuery({
@@ -32,7 +35,25 @@ function Profile() {
   if (profileQuery.isPending) return <p role="status">Carregando perfil…</p>
   if (!profileQuery.data) return <p role="alert">{getErrorMessage(profileQuery.error)}</p>
   return (
-    <section className="account-layout">
+    <section className="account-layout profile-page">
+      <div className="mobile-page-heading">
+        <Button
+          variant="outline"
+          aria-label="Voltar"
+          onClick={() => {
+            if (router.history.canGoBack()) router.history.back()
+            else
+              void navigate({
+                to: '/',
+                search: { q: '', category: '', network: '', sort: 'recent', page: 1 },
+                replace: true,
+              })
+          }}
+        >
+          <span className="asset-icon pagination-chevron" aria-hidden="true" />
+        </Button>
+        <h1>Meu perfil</h1>
+      </div>
       <AccountMenu />
       <div>
         <h1>Perfil do colecionador</h1>

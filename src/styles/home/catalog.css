@@ -240,3 +240,27 @@
 .catalog-sort-chevron {
   mask: url('/assets/chevron-right.svg') center / contain no-repeat;
 }
+
+.mobile-filters-panel {
+  @apply z-50;
+  @apply overflow-hidden;
+  & .modal-close {
+    @apply top-4 right-4;
+  }
+  & .filters {
+    @apply bg-transparent;
+  }
+}
+
+@media (max-width: 600px) {
+  .mobile-filters-panel {
+    @apply fixed top-0 bottom-0 left-auto right-0 translate-x-0 translate-y-0 w-[min(360px,100%)] max-h-dvh p-6 pt-12 rounded-l-[40px] rounded-r-none bg-card border-0;
+    & .catalog-sidebar {
+      @apply block;
+    }
+  }
+}
+
+.mobile-filters-body {
+  @apply h-full overflow-y-auto;
+}

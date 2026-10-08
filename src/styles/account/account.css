@@ -33,7 +33,7 @@
 }
 
 .account-layout {
-  & h1 {
+  & :where(:not(.mobile-page-heading)) > h1 {
     @apply text-[16px] mt-0 mb-6 leading-normal;
   }
 }
@@ -130,5 +130,100 @@
 
   .profile-password {
     @apply w-full;
+  }
+}
+
+@media (max-width: 600px) {
+  body:has(.mobile-wallets-view, .mobile-profile-view, .mobile-favorites-view) {
+    @apply p-0;
+    & .site-header,
+    & .site-footer {
+      @apply hidden;
+    }
+  }
+  main.mobile-wallets-view,
+  main.mobile-profile-view,
+  main.mobile-favorites-view {
+    @apply px-7 pt-[88px] pb-7;
+  }
+  .wallets-page,
+  .profile-page,
+  .favorites-page {
+    @apply m-0 grid-cols-1;
+  }
+  .wallets-page > .account-menu {
+    @apply hidden;
+  }
+}
+
+@media (max-width: 600px) {
+  :is(.profile-page, .favorites-page) > .account-menu {
+    @apply grid grid-cols-2 gap-2 p-3 rounded-2xl;
+
+    & h2,
+    & > button:not(.account-logout) {
+      @apply hidden;
+    }
+
+    & > a {
+      @apply w-full rounded-lg px-3 py-3 border-0;
+    }
+
+    & > a[aria-current='page'] {
+      @apply bg-background text-highlight;
+    }
+
+    & .account-logout {
+      @apply col-span-full w-full mt-1;
+    }
+
+    & > p {
+      @apply block col-span-full;
+    }
+  }
+}
+
+.favorites-heading {
+  @apply mb-6;
+}
+.favorites-list {
+  @apply grid gap-3;
+}
+.favorite-row {
+  @apply flex items-center gap-4 min-w-0 p-3 rounded-lg bg-card;
+  & > a {
+    @apply shrink-0;
+  }
+  & img {
+    @apply size-[70px] rounded-md object-cover;
+  }
+  & > div:first-of-type {
+    @apply flex-1 min-w-0;
+  }
+  & h2 {
+    @apply text-[16px] font-bold m-0;
+  }
+  & .favorite-token {
+    @apply text-[14px] text-copy my-2;
+  }
+  & .price {
+    @apply text-[16px] m-0;
+  }
+  & .button {
+    @apply border-0 bg-transparent size-11 p-0;
+    &:hover {
+      @apply bg-transparent text-highlight;
+    }
+  }
+  & p:empty {
+    @apply hidden;
+  }
+}
+@media (max-width: 600px) {
+  .favorites-heading {
+    @apply sr-only;
+  }
+  :is(.profile-page, .favorites-page) > .account-menu > a:last-of-type {
+    @apply col-span-full;
   }
 }

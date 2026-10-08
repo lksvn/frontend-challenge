@@ -122,14 +122,13 @@ export function SiteLayout() {
             >
               <span className="asset-icon mobile-home-icon" aria-hidden="true" />
             </Link>
-            <button
-              type="button"
-              disabled
-              aria-label="Lista de interesse indisponível"
-              title="Lista de interesse ainda indisponível"
+            <Link
+              to="/favorites"
+              aria-label="Favoritos"
+              aria-current={pathname === '/favorites' ? 'page' : undefined}
             >
               <span className="asset-icon heart-filled-icon" aria-hidden="true" />
-            </button>
+            </Link>
             <button
               type="button"
               className="mobile-central-action"
@@ -150,7 +149,15 @@ export function SiteLayout() {
             ? 'mobile-detail-view'
             : pathname === '/cart'
               ? 'mobile-cart-view'
-              : undefined
+              : pathname === '/checkout'
+                ? 'mobile-payment-view'
+                : pathname === '/wallets'
+                  ? 'mobile-wallets-view'
+                  : pathname === '/profile'
+                    ? 'mobile-profile-view'
+                    : pathname === '/favorites'
+                      ? 'mobile-favorites-view'
+                      : undefined
         }
       >
         <Outlet />

@@ -17,6 +17,7 @@ import { CartPage } from './pages/cart-page'
 import { CheckoutPage } from './pages/checkout-page'
 import { OrderPage } from './pages/order-page'
 import { ProfilePage } from './pages/profile-page'
+import { FavoritesPage } from './pages/favorites-page'
 import { WalletsPage } from './pages/wallets-page'
 
 const root = createRootRoute({
@@ -127,6 +128,11 @@ const wallets = createRoute({
   path: '/wallets',
   component: WalletsPage,
 })
+const favorites = createRoute({
+  getParentRoute: () => root,
+  path: '/favorites',
+  component: FavoritesPage,
+})
 const order = createRoute({
   getParentRoute: () => root,
   path: '/orders/$id',
@@ -161,6 +167,7 @@ export const router = createRouter({
     checkout,
     profile,
     wallets,
+    favorites,
     order,
   ]),
 })

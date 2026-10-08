@@ -1,0 +1,61 @@
+import { test, expect } from '@playwright/test'
+
+test('pagamento mobile tem cabeçalho próprio e volta ao carrinho', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile')
+  await page.addInitScript(() => {
+    Math.random = () => 0.5
+  })
+  await page.goto('/checkout')
+  const login = page.getByRole('dialog', { name: 'Entrar na Kurio' })
+  await login.getByLabel('E-mail', { exact: true }).fill('ana@kurio.test')
+  await login.getByLabel('Senha', { exact: true }).fill('Kurio123!')
+  await login.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Pagamento com carteira' })).toBeVisible()
+  const wallets = await page.evaluate(async () => (await fetch('/api/wallets')).json())
+  expect(wallets).toContainEqual(
+    expect.objectContaining({
+      id: 'ana-primary',
+      primary: true,
+      provider: 'MetaMask',
+      network: 'Ethereum',
+    }),
+  )
+  await expect(page.locator('.header-actions')).toBeHidden()
+  await expect(page.locator('.site-footer')).toBeHidden()
+  await page.getByRole('button', { name: 'Voltar ao carrinho' }).click()
+  await expect(page).toHaveURL(/\/cart$/)
+  await page.goto('/nfts/1')
+  await page.getByRole('button', { name: 'Comprar NFT', exact: true }).click()
+  await expect(page.getByText('Adicionado ao carrinho.', { exact: true })).toBeVisible()
+  await page.getByRole('link', { name: 'Abrir carrinho' }).click()
+  await page.getByRole('button', { name: 'Conectar e finalizar' }).click()
+  await expect(page).toHaveURL(/\/checkout$/)
+  const fields = page.locator('.collector-panel-content')
+  await expect(fields).toBeHidden()
+  await expect(page.locator('.payment-wallets input:checked')).toHaveValue('ana-primary')
+  await page.getByRole('button', { name: 'Conectar', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Confirmar compra', exact: true })).toBeEnabled()
+  await page.getByRole('button', { name: 'Dados do coletor' }).click()
+  await fields.getByLabel('Nome de usuário', { exact: true }).fill('')
+  await page.getByRole('button', { name: 'Dados do coletor' }).click()
+  await page.getByRole('button', { name: 'Confirmar compra', exact: true }).click()
+  await expect(fields).toBeVisible()
+  await expect(fields.getByLabel('Nome de usuário', { exact: true })).toBeFocused()
+  await fields.getByLabel('Nome de usuário', { exact: true }).fill('ana')
+  await page.getByRole('button', { name: 'Dados do coletor' }).click()
+  await expect(page.locator('.payment-actions')).toHaveCSS('position', 'fixed')
+  await expect(page.locator('.payment-actions')).toHaveCSS('border-top-left-radius', '40px')
+  await page.screenshot({ path: 'reports/mobile-payment.png' })
+  await page.getByRole('button', { name: 'Trocar carteira', exact: true }).click()
+  const walletTitle = page.getByRole('heading', { name: 'Carteiras', exact: true })
+  await expect(walletTitle).toBeVisible()
+  await expect(walletTitle).toHaveCSS('margin-bottom', '0px')
+  await expect(walletTitle).toHaveCSS('font-size', '20px')
+  await expect(page.locator('.account-menu')).toBeHidden()
+  await page.getByRole('button', { name: 'Voltar', exact: true }).click()
+  await expect(page).toHaveURL(/\/checkout$/)
+  await page.getByRole('button', { name: 'Voltar ao carrinho' }).click()
+  await expect(page).toHaveURL(/\/cart$/)
+  await page.getByRole('button', { name: 'Voltar', exact: true }).click()
+  await expect(page).toHaveURL(/\/nfts\/1$/)
+})

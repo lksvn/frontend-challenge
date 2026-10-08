@@ -78,7 +78,7 @@ test('compra completa, carrinho do visitante e recibo após refresh', async ({ p
   await expect(page.getByRole('dialog')).toContainText('MetaMask')
   await expect(page.getByRole('dialog')).toContainText('06/10/2026')
   await page.getByRole('button', { name: 'Fechar recibo' }).click()
-  await expect(page).toHaveURL(/\/cart$/)
+  await expect(page).toHaveURL(/#catalogo$/)
   await clickDemo(page, 'Evento antigo de pedido')
   await expect(page.locator('.demo-panel [role="status"]')).toContainText(
     'Estado mantido: confirmado',

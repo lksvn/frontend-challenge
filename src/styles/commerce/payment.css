@@ -31,7 +31,7 @@
   & > h2 {
     @apply mt-0 mb-2;
   }
-  & > .button:last-child {
+  & .payment-confirm {
     @apply w-full bg-brand text-background font-bold;
   }
   & .summary > div {
@@ -104,5 +104,132 @@
     & strong {
       @apply ml-auto;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  body:has(.mobile-payment-view) {
+    @apply p-0;
+    & .site-header,
+    & .site-footer {
+      @apply hidden;
+    }
+  }
+  main.mobile-payment-view {
+    @apply px-7 pt-[88px] pb-7;
+  }
+  .payment-page {
+    @apply m-0;
+  }
+  .payment-page .detail-breadcrumb {
+    @apply hidden;
+  }
+}
+
+.payment-mobile-label {
+  @apply hidden;
+}
+
+@media (max-width: 600px) {
+  .payment-desktop-label,
+  .payment-summary > .button.payment-desktop-label {
+    @apply hidden;
+  }
+  .payment-mobile-label {
+    @apply block;
+  }
+  .payment-wallets {
+    & legend {
+      @apply text-left text-[16px];
+    }
+    & label {
+      @apply min-h-[92px] gap-4 px-5 py-4 rounded-2xl bg-card border-0;
+    }
+    & input {
+      @apply shrink-0;
+    }
+    & .payment-wallet-card {
+      @apply grid gap-1 min-w-0 text-[14px] text-copy;
+    }
+    & strong {
+      @apply text-[16px] text-foreground;
+    }
+    & span {
+      @apply break-words;
+    }
+  }
+}
+
+.collector-toggle {
+  @apply hidden;
+}
+
+@media (max-width: 600px) {
+  main.mobile-payment-view {
+    @apply pb-[120px];
+  }
+  .payment-layout {
+    @apply flex flex-col gap-6 mt-0;
+  }
+  .payment-summary {
+    @apply order-0 flex flex-col gap-4;
+  }
+  .payment-summary > h2,
+  .payment-summary > .payment-items,
+  .payment-summary > .payment-coupon-link {
+    @apply hidden;
+  }
+  .payment-wallets {
+    @apply order-[-3];
+  }
+  .payment-wallet-heading {
+    @apply flex items-center justify-between gap-3;
+    & button {
+      @apply p-0 bg-transparent text-brand text-[14px];
+    }
+  }
+  .payment-connection {
+    @apply order-[-2];
+    & h2 {
+      @apply text-[16px];
+    }
+    & .payment-provider {
+      @apply rounded-2xl bg-card px-5 py-5;
+    }
+    & .actions {
+      @apply flex flex-wrap gap-2;
+    }
+    & .actions > button:nth-child(2) {
+      @apply hidden;
+    }
+    & [role='status']:empty,
+    & [role='alert']:empty {
+      @apply hidden;
+    }
+  }
+  .payment-summary > .summary {
+    @apply order-[-1] my-0;
+    & > div:not(:last-child) {
+      @apply hidden;
+    }
+    & > div:last-child {
+      @apply border-0 mt-0 justify-end;
+    }
+  }
+  .payment-actions {
+    @apply fixed bottom-0 left-0 right-0 z-20 px-7 pt-6 pb-7 rounded-t-[40px] bg-card shadow-[0_0_20px_#0A060473];
+    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+  }
+  .collector-panel {
+    @apply order-1;
+  }
+  .collector-toggle {
+    @apply block p-0 bg-transparent text-brand font-bold;
+  }
+  .collector-panel[data-open='false'] .collector-panel-content {
+    @apply hidden;
+  }
+  .collector-panel-content {
+    @apply mt-4;
   }
 }

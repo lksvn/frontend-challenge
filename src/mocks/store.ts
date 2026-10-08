@@ -24,6 +24,20 @@ interface State {
 
 const KEY = 'kurio.mock.v1'
 
+const anaWallet: Wallet = {
+  id: 'ana-primary',
+  name: 'Ana',
+  nickname: 'Principal',
+  address: '0x1111111111111111111111111111111111111111',
+  network: 'Ethereum',
+  provider: 'MetaMask',
+  primary: true,
+  email: 'ana@kurio.test',
+  ens: 'ana.eth',
+  profileName: 'ana',
+  referral: 'KURIO',
+}
+
 export async function hashPassword(password: string, salt: string) {
   const key = await crypto.subtle.importKey(
     'raw',
@@ -56,13 +70,13 @@ async function initialState(): Promise<State> {
     }),
   )
   return {
-    version: 6,
+    version: 7,
     nfts: createNfts(),
     accounts,
     session: null,
     carts: { guest: [] },
     favorites: {},
-    wallets: {},
+    wallets: { '1': [structuredClone(anaWallet)] },
     orders: {},
     attempts: {},
     quotes: {},
@@ -129,7 +143,14 @@ export const ready = (async () => {
       })
       saved.version = 6
     }
-    state = saved?.version === 6 ? saved : await initialState()
+    if (saved?.version === 6) {
+      const ana = saved.accounts.find((account) => account.email === 'ana@kurio.test')
+      if (ana && !saved.wallets[ana.id]?.length) {
+        saved.wallets[ana.id] = [structuredClone(anaWallet)]
+      }
+      saved.version = 7
+    }
+    state = saved?.version === 7 ? saved : await initialState()
   } catch {
     state = await initialState()
   }
