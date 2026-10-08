@@ -71,9 +71,9 @@ export function createNfts(random = Math.random): Nft[] {
           'A propriedade inclui a arte em alta resolução, lançamentos exclusivos para colecionadores e um registro permanente de procedência registrada na rede. Nova Sato recebe 5% de direitos autorais nas vendas secundárias, apoiando novos trabalhos e lançamentos da comunidade.',
         ],
         network: `Cunhado na ${network} com procedência imutável e metadados armazenados no IPFS.`,
-        contract:
+        royalties:
           'Direitos autorais do criador: 5% nas vendas secundárias, pagos automaticamente pelos mercados compatíveis.',
-        royalties: '0x7A42...19E8 · Contrato inteligente ERC-721 verificado.',
+        contract: '0x7A42...19E8 · Contrato inteligente ERC-721 verificado.',
       },
       collection: 'Kurio Editions',
       category: categories[Math.floor(random() * categories.length)],

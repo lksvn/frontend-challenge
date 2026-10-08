@@ -70,7 +70,7 @@ async function initialState(): Promise<State> {
     }),
   )
   return {
-    version: 7,
+    version: 8,
     nfts: createNfts(),
     accounts,
     session: null,
@@ -150,7 +150,17 @@ export const ready = (async () => {
       }
       saved.version = 7
     }
-    state = saved?.version === 7 ? saved : await initialState()
+    if (saved?.version === 7) {
+      for (const nft of saved.nfts) {
+        if (nft.details.contract.startsWith('Direitos autorais')) {
+          const contract = nft.details.contract
+          nft.details.contract = nft.details.royalties
+          nft.details.royalties = contract
+        }
+      }
+      saved.version = 8
+    }
+    state = saved?.version === 8 ? saved : await initialState()
   } catch {
     state = await initialState()
   }
