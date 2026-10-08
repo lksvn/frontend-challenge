@@ -2,6 +2,40 @@ import { test, expect, type Page } from '@playwright/test'
 import type { Nft } from '../src/contracts'
 import { emitNftEvent, selectScenario } from './mock-controls'
 
+test('consulta recupera o mock após HTML 404 do Pages', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('#catalogo .nft-card').first()).toBeVisible()
+  const result = await page.evaluate(async () => {
+    const apiPath = '/src/lib/api.ts'
+    const mocksPath = '/src/mocks/browser.ts'
+    const { api } = await import(apiPath)
+    const { worker } = await import(mocksPath)
+    const axiosPath = '/node_modules/.vite/deps/axios.js'
+    const { default: axios, AxiosError } = await import(axiosPath)
+    const adapter = axios.getAdapter(api.defaults.adapter)
+    let attempts = 0
+    worker.stop()
+    const response = await api.get('/nfts', {
+      adapter: async (config: Parameters<typeof adapter>[0]) => {
+        attempts += 1
+        if (attempts === 1) {
+          throw new AxiosError('Not Found', 'ERR_BAD_REQUEST', config, undefined, {
+            config,
+            status: 404,
+            statusText: 'Not Found',
+            headers: { 'content-type': 'text/html' },
+            data: '<html>Not Found</html>',
+          })
+        }
+        return adapter(config)
+      },
+    })
+    return { attempts, total: response.data.total }
+  })
+  expect(result.attempts).toBe(2)
+  expect(result.total).toBeGreaterThan(0)
+})
+
 async function fixtureNfts(page: Page): Promise<Nft[]> {
   await expect(page.locator('#catalogo .nft-grid .nft-card').first()).toBeVisible()
   return page.evaluate(() => JSON.parse(localStorage.getItem('kurio.mock.v1')!).nfts)
