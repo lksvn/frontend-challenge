@@ -23,6 +23,7 @@ for (const declined of [false, true]) {
         localStorage.setItem('kurio.mock.v1', JSON.stringify(state))
       })
     }
+    await page.evaluate(() => localStorage.setItem('kurio.coupon', 'KURIO10'))
     await page.goto('/checkout')
     await page.getByRole('button', { name: 'Conectar', exact: true }).click()
     const toggle = page.getByRole('button', { name: 'Dados do coletor', exact: true })
@@ -35,6 +36,9 @@ for (const declined of [false, true]) {
     )
     await page.getByRole('button', { name: 'Fechar recibo' }).click()
     await expect(page).toHaveURL(declined ? /\/cart$/ : /#catalogo$/)
+    expect(await page.evaluate(() => localStorage.getItem('kurio.coupon'))).toBe(
+      declined ? 'KURIO10' : null,
+    )
     if (declined) await expect(page.locator('.cart-row')).toHaveCount(1)
     await expect(page.getByRole('dialog')).toHaveCount(0)
   })

@@ -37,6 +37,7 @@ function Receipt({ id }: { id: string }) {
       onOpenChange={(open) => {
         if (open) return
         if (order?.status === 'confirmed') {
+          localStorage.removeItem('kurio.coupon')
           void navigate({
             to: '/',
             hash: 'catalogo',
