@@ -170,6 +170,6 @@
 
 @media (max-width: 600px) {
   body :is(.header-actions, .nft-purchase-actions, .cart-summary, .payment-actions) {
-    bottom: calc(100% - 100dvh);
+    bottom: var(--mobile-viewport-bottom, 0px);
   }
 }

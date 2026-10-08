@@ -32,5 +32,27 @@ test('ações fixas acompanham mudanças da altura da viewport', async ({ page }
         })
         .toBeLessThan(2)
     }
+    for (const [visibleHeight, offsetTop] of [
+      [620, 0],
+      [640, 20],
+      [700, 0],
+    ]) {
+      await page.evaluate(
+        ({ visibleHeight, offsetTop }) => {
+          const viewport = window.visualViewport!
+          Object.defineProperty(viewport, 'height', { configurable: true, value: visibleHeight })
+          Object.defineProperty(viewport, 'offsetTop', { configurable: true, value: offsetTop })
+          viewport.dispatchEvent(new Event('resize'))
+          viewport.dispatchEvent(new Event('scroll'))
+        },
+        { visibleHeight, offsetTop },
+      )
+      await expect
+        .poll(async () => {
+          const box = await page.locator(selector).boundingBox()
+          return Math.abs(box!.y + box!.height - visibleHeight - offsetTop)
+        })
+        .toBeLessThan(2)
+    }
   }
 })

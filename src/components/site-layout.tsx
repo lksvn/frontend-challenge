@@ -1,5 +1,5 @@
 import { Link, Outlet, useSearch, useNavigate, useRouterState } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { useMarketplaceEvents } from '../hooks/use-marketplace-events'
@@ -65,6 +65,30 @@ function HeaderSearch() {
 }
 
 export function SiteLayout() {
+  useEffect(() => {
+    const viewport = window.visualViewport
+    if (!viewport) return
+    const updateBottom = () => {
+      const bottom =
+        viewport.scale === 1
+          ? Math.max(
+              0,
+              document.documentElement.clientHeight - viewport.height - viewport.offsetTop,
+            )
+          : 0
+      document.documentElement.style.setProperty('--mobile-viewport-bottom', `${bottom}px`)
+    }
+    updateBottom()
+    viewport.addEventListener('resize', updateBottom)
+    viewport.addEventListener('scroll', updateBottom)
+    window.addEventListener('resize', updateBottom)
+    return () => {
+      viewport.removeEventListener('resize', updateBottom)
+      viewport.removeEventListener('scroll', updateBottom)
+      window.removeEventListener('resize', updateBottom)
+      document.documentElement.style.removeProperty('--mobile-viewport-bottom')
+    }
+  }, [])
   const { message } = useMarketplaceEvents()
   const location = useRouterState({ select: (state) => state.location })
   const pathname = location.pathname
